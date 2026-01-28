@@ -418,7 +418,7 @@ export default function AdminDashboard() {
                             <p className="text-muted-foreground mb-4">{app.description}</p>
                             <div className="flex flex-wrap gap-4 text-sm">
                               <span className="flex items-center gap-1.5 text-muted-foreground">
-                                <User className="text-accent" size={16} />
+                                {/* <User className="text-accent" size={16} /> */}
                                 {app.founderName}
                               </span>
                               <span className="flex items-center gap-1.5 text-muted-foreground">
