@@ -70,10 +70,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const users: User[] = usersStr ? JSON.parse(usersStr) : []
 
     // Check for admin account
-    if (email === "admin@venturesplatform.com" && password === "admin123") {
+    if (email === "admin@awakapital.com" && password === "admin123") {
       const adminUser: User = {
         id: "admin-1",
-        email: "admin@venturesplatform.com",
+        email: "admin@awakapital.com",
         name: "Admin User",
         role: "admin",
         createdAt: new Date().toISOString(),

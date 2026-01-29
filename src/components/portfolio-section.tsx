@@ -12,14 +12,14 @@ const portfolioCompanies = [
   { name: "Paystack", industry: "Payments" },
   { name: "Wealth8", industry: "Investment" },
   { name: "Earnipay", industry: "HR Tech" },
-  { name: "Mdaas Global", industry: "Med Tech" },
+  { name: "Med G", industry: "Med Tech" },
   { name: "Engage", industry: "Marketing" },
   { name: "SunFi", industry: "Energy" },
-  { name: "Quobbly", industry: "Education" },
-  { name: "OmniRetail", industry: "Retail" },
-  { name: "Bridgecard", industry: "Fintech" },
-  { name: "Piggyvest", industry: "Savings" },
-  { name: "SeamlessHR", industry: "HR Tech" },
+  // { name: "Quobbly", industry: "Education" },
+  // { name: "OmniRetail", industry: "Retail" },
+  // { name: "Bridgecard", industry: "Fintech" },
+  // { name: "Piggyvest", industry: "Savings" },
+  // { name: "SeamlessHR", industry: "HR Tech" },
 ]
 
 export function PortfolioSection() {
@@ -52,7 +52,7 @@ export function PortfolioSection() {
             >
               {/* Company Logo Placeholder */}
               <div className="aspect-square flex items-center justify-center mb-4">
-                <div className="w-full h-full bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <div className="w-full h-full bg-linear-to-br from-primary/10 to-accent/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <span className="text-2xl font-bold text-primary group-hover:text-accent transition-colors">
                     {company.name.charAt(0)}
                   </span>

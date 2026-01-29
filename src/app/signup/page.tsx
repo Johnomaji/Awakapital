@@ -54,11 +54,12 @@ export default function SignupPage() {
           {/* Logo */}
           <div className="text-center">
             <Link href="/" className="inline-flex items-center gap-3 group">
-              <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-xl">VP</span>
+              <div className="w-12 h-12 bg-linear-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                {/* <span className="text-primary-foreground font-bold text-xl">VP</span> */}
+                <img src="/logo.png" alt="Awakapital Logo" />
               </div>
               <span className="text-2xl font-display font-bold text-foreground">
-                Ventures Platform
+                Awakapital
               </span>
             </Link>
           </div>
@@ -69,7 +70,7 @@ export default function SignupPage() {
               Create Your Account
             </h1>
             <p className="text-muted-foreground">
-              Join Ventures Platform and start building the future
+              Join Awakapital and start building the future
             </p>
           </div>
 
@@ -214,7 +215,7 @@ export default function SignupPage() {
       </div>
 
       {/* Right Side - Benefits */}
-      <div className="hidden lg:flex flex-1 bg-gradient-to-br from-primary via-secondary to-primary items-center justify-center p-12 relative overflow-hidden">
+      <div className="hidden lg:flex flex-1 bg-linear-to-br from-primary via-secondary to-primary items-center justify-center p-12 relative overflow-hidden">
         {/* Decorative Elements */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-accent rounded-full blur-3xl animate-float" />
@@ -246,7 +247,7 @@ export default function SignupPage() {
               }
             ].map((benefit, index) => (
               <div key={benefit.title} className="flex items-start gap-4 animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                <div className="w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center shrink-0">
                   <CheckCircle className="text-accent" size={20} />
                 </div>
                 <div>

@@ -71,7 +71,7 @@ export function FoundersSection() {
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               {/* Founder Image */}
-              <div className="relative h-64 bg-gradient-to-br from-primary/20 to-accent/20 overflow-hidden">
+              <div className="relative h-64 bg-linear-to-br from-primary/20 to-accent/20 overflow-hidden">
                 {/* Placeholder - replace with actual image */}
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="w-32 h-32 bg-accent/20 rounded-full flex items-center justify-center text-4xl font-bold text-accent">
@@ -81,7 +81,7 @@ export function FoundersSection() {
                 </div>
                 
                 {/* Overlay on Hover */}
-                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-linear-to-t from-card via-card/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 
                 {/* Social Links (appear on hover) */}
                 <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

@@ -41,13 +41,13 @@ export function Navigation() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
             <div className="relative">
-              <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
-                <img src="/logo.png" alt="Ventures Platform Logo" />
+              <div className="w-12 h-12 bg-linear-to-br from-primary to-secondary rounded-xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
+                <img src="/logo.png" alt="Awakapital Logo" width="38" height="38" />
               </div>
               <div className="absolute -inset-1 bg-accent/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
             <span className="text-xl font-display font-bold text-foreground hidden sm:block">
-              Ventures Platform
+              Awakapital
             </span>
           </Link>
 

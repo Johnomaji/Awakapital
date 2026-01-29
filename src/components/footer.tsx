@@ -48,11 +48,12 @@ export function Footer() {
           {/* Brand Column */}
           <div className="lg:col-span-2 space-y-6">
             <Link href="/" className="inline-flex items-center gap-3 group">
-              <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-xl">VP</span>
+              <div className="w-12 h-12 bg-linear-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                {/* <span className="text-primary-foreground font-bold text-xl">VP</span> */}
+                <img src="/logo.png" alt="Awakapital Logo" width="38" height="38" />
               </div>
               <span className="text-xl font-display font-bold text-foreground">
-                Ventures Platform
+                Awakapital
               </span>
             </Link>
             
@@ -69,8 +70,8 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Mail size={16} className="text-accent" />
-                <a href="mailto:hello@venturesplatform.com" className="hover:text-accent transition-colors">
-                  hello@venturesplatform.com
+                <a href="mailto:hello@awakapital.com" className="hover:text-accent transition-colors">
+                  hello@awakapital.com
                 </a>
               </div>
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
@@ -174,12 +175,12 @@ export function Footer() {
         <div className="border-t border-border py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
             <p>
-              © {currentYear} Ventures Platform. All rights reserved.
+              © {currentYear} Awakapital. All rights reserved.
             </p>
             <p className="flex items-center gap-2">
-              Made with{" "}
-              <span className="text-accent animate-pulse">❤️</span>{" "}
-              in Africa
+              Made for{" "}
+              {/* <span className="text-accent animate-pulse">❤️</span>{" "} */}
+              businesses in Africa
             </p>
           </div>
         </div>

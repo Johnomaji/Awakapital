@@ -36,11 +36,12 @@ export default function LoginPage() {
           {/* Logo */}
           <div className="text-center">
             <Link href="/" className="inline-flex items-center gap-3 group">
-              <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-xl">VP</span>
+              <div className="w-12 h-12 bg-linear-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                {/* <span className="text-primary-foreground font-bold text-xl">VP</span> */}
+                <img src="/logo.png" alt="Awakapital Logo" />
               </div>
               <span className="text-2xl font-display font-bold text-foreground">
-                Ventures Platform
+                Awakapital
               </span>
             </Link>
           </div>
@@ -62,7 +63,7 @@ export default function LoginPage() {
               Demo Credentials
             </div>
             <div className="text-sm space-y-1 text-muted-foreground">
-              <p><strong>Admin:</strong> admin@venturesplatform.com / admin123</p>
+              <p><strong>Admin:</strong> admin@awakapital.com / admin123</p>
               <p><strong>User:</strong> Any registered email / password123</p>
             </div>
           </div> */}
@@ -160,7 +161,7 @@ export default function LoginPage() {
       </div>
 
       {/* Right Side - Image/Branding */}
-      <div className="hidden lg:flex flex-1 bg-gradient-to-br from-primary via-secondary to-primary items-center justify-center p-12 relative overflow-hidden">
+      <div className="hidden lg:flex flex-1 bg-linear-to-br from-primary via-secondary to-primary items-center justify-center p-12 relative overflow-hidden">
         {/* Decorative Elements */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-accent rounded-full blur-3xl animate-float" />
@@ -173,7 +174,7 @@ export default function LoginPage() {
           </h2>
           <p className="text-xl text-primary-foreground/80">
             Track your applications, manage your portfolio, and stay connected with 
-            the Ventures Platform ecosystem.
+            the Awakapital ecosystem.
           </p>
           <div className="grid grid-cols-3 gap-4 pt-8">
             <div className="space-y-2">

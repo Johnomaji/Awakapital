@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Mail, MessageSquare, Phone, MapPin, Send } from "lucide-react"
+import { Mail, MessageSquare, Phone, MapPin, Send, Link } from "lucide-react"
 import { Button } from "./ui/button"
 
 export function ContactSection() {
@@ -53,14 +53,14 @@ export function ContactSection() {
             <div className="space-y-6">
               <div className="bg-card border border-border rounded-xl p-6 hover:border-accent/50 transition-all duration-300 group">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
+                  <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-accent/20 transition-colors">
                     <Mail className="text-accent" size={24} />
                   </div>
                   <div className="space-y-1">
                     <h3 className="font-semibold text-foreground">Email Us</h3>
                     <p className="text-sm text-muted-foreground">Our team will respond within 24 hours</p>
-                    <a href="mailto:hello@venturesplatform.com" className="text-sm text-accent hover:underline font-medium">
-                      hello@venturesplatform.com
+                    <a href="mailto:hello@awakapital.com" className="text-sm text-accent hover:underline font-medium">
+                      hello@awakapital.com
                     </a>
                   </div>
                 </div>
@@ -68,7 +68,7 @@ export function ContactSection() {
 
               <div className="bg-card border border-border rounded-xl p-6 hover:border-accent/50 transition-all duration-300 group">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
+                  <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-accent/20 transition-colors">
                     <Phone className="text-accent" size={24} />
                   </div>
                   <div className="space-y-1">
@@ -83,7 +83,7 @@ export function ContactSection() {
 
               <div className="bg-card border border-border rounded-xl p-6 hover:border-accent/50 transition-all duration-300 group">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
+                  <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-accent/20 transition-colors">
                     <MapPin className="text-accent" size={24} />
                   </div>
                   <div className="space-y-1">
@@ -98,7 +98,7 @@ export function ContactSection() {
             </div>
 
             {/* CTA Box */}
-            <div className="bg-gradient-to-br from-primary to-secondary rounded-2xl p-8 text-primary-foreground space-y-4">
+            <div className="bg-linear-to-br from-primary to-secondary rounded-2xl p-8 text-primary-foreground space-y-4">
               <MessageSquare className="text-accent" size={40} />
               <h3 className="text-2xl font-display font-bold">
                 Looking for Funding?
@@ -106,9 +106,11 @@ export function ContactSection() {
               <p className="text-primary-foreground/80 leading-relaxed">
                 Submit your pitch deck and we'll get back to you within 48 hours.
               </p>
+              <Link href="/apply">
               <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold w-full hover:glow-accent">
                 Submit Your Pitch
               </Button>
+              </Link>
             </div>
           </div>
 

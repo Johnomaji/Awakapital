@@ -17,11 +17,11 @@ const article = {
     role: "Founder & General Partner",
     avatar: "/team/kola-aina.jpg"
   },
-  coverImage: "/blog/article-cover.jpg",
+  coverImage: "/blogimage1.png",
   content: `
 # Introduction
 
-The African tech ecosystem is experiencing unprecedented growth, driven by visionary founders who are building solutions to the continent's most pressing challenges. At Ventures Platform, we're proud to support 11 leading African tech CEOs who are not just building companies, but reshaping entire industries.
+The African tech ecosystem is experiencing unprecedented growth, driven by visionary founders who are building solutions to the continent's most pressing challenges. At Awakapital, we're proud to support 11 leading African tech CEOs who are not just building companies, but reshaping entire industries.
 
 ## The Power of Strategic Capital
 
@@ -107,14 +107,14 @@ We're honored to be part of their journey and excited about what the future hold
       id: "2",
       title: "Identifying AI and Machine Learning Opportunities Beyond Product Strategy",
       category: "Insights",
-      image: "/blog/article-2.jpg",
+      image: "/blogimage2.png",
       slug: "ai-ml-opportunities-africa"
     },
     {
       id: "3",
       title: "Africa's Wealth Investment Class with PiggyVest Returns",
       category: "Market Analysis",
-      image: "/blog/article-3.jpg",
+      image: "/blogimage3.png",
       slug: "piggyvest-wealth-investment"
     }
   ]
@@ -191,11 +191,9 @@ export default function BlogArticle() {
         {/* Cover Image */}
         <section className="py-12">
           <div className="container-custom max-w-4xl">
-            <div className="aspect-video bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl overflow-hidden">
+            <div className="aspect-video bg-linear-to-br from-primary/20 to-accent/20 rounded-2xl overflow-hidden">
               {/* Replace with actual image */}
-              <div className="w-full h-full flex items-center justify-center">
-                <div className="text-6xl font-bold text-accent/20">VP</div>
-              </div>
+              <img src={article.coverImage} alt={article.title} className="w-full h-full object-cover" />
             </div>
           </div>
         </section>
@@ -228,10 +226,8 @@ export default function BlogArticle() {
             {/* Author Bio */}
             <div className="mt-12 p-8 bg-card border border-border rounded-2xl">
               <div className="flex items-start gap-6">
-                <div className="w-20 h-20 bg-accent/20 rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-2xl font-bold text-accent">
-                    {article.author.name.split(' ').map(n => n[0]).join('')}
-                  </span>
+                <div className="w-20 h-20 bg-accent/20 rounded-full flex items-center justify-center shrink-0">
+                  <img src={article.author.avatar} alt={article.author.name} className="w-full h-full rounded-full object-cover" />
                 </div>
                 <div>
                   <h3 className="text-xl font-display font-bold text-foreground mb-1">
@@ -239,7 +235,7 @@ export default function BlogArticle() {
                   </h3>
                   <p className="text-sm text-accent mb-3">{article.author.role}</p>
                   <p className="text-muted-foreground leading-relaxed">
-                    Leading Ventures Platform's investment strategy across Africa, with a focus on 
+                    Leading Awakapital's investment strategy across Africa, with a focus on
                     backing exceptional founders building transformative companies.
                   </p>
                 </div>
@@ -262,9 +258,9 @@ export default function BlogArticle() {
                   className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-accent/50 hover:shadow-xl transition-all duration-300"
                 >
                   {/* Image */}
-                  <div className="relative h-56 bg-gradient-to-br from-primary/20 to-accent/20">
+                  <div className="relative h-56 bg-linear-to-br from-primary/20 to-accent/20">
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-4xl font-bold text-accent/20">VP</div>
+                      <img src={related.image} alt={related.title} className="w-full h-full object-cover" />
                     </div>
                     <div className="absolute top-4 left-4">
                       <span className="px-3 py-1.5 bg-accent text-accent-foreground text-xs font-semibold rounded-full">
@@ -288,7 +284,7 @@ export default function BlogArticle() {
         {/* CTA Section */}
         <section className="py-16">
           <div className="container-custom max-w-4xl">
-            <div className="bg-gradient-to-br from-primary to-secondary rounded-2xl p-12 text-center text-primary-foreground">
+            <div className="bg-linear-to-br from-primary to-secondary rounded-2xl p-12 text-center text-primary-foreground">
               <h2 className="text-3xl font-display font-bold mb-4">
                 Want to Build the Future of Africa?
               </h2>

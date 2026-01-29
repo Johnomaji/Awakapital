@@ -11,7 +11,7 @@ const articles = [
     date: "January 15, 2026",
     readTime: "5 min read",
     excerpt: "Discover how our portfolio companies are driving innovation and creating value across African markets through strategic partnerships and sustainable growth.",
-    image: "/news/article-1.jpg",
+    image: "/blogimage1.png",
     slug: "empowering-african-tech-ceos",
     featured: true,
   },
@@ -21,7 +21,7 @@ const articles = [
     date: "January 10, 2026",
     readTime: "8 min read",
     excerpt: "Exploring how African startups can leverage AI and ML to solve unique infrastructure challenges and create market-defining solutions.",
-    image: "/news/article-2.jpg",
+    image: "/blogimage2.png",
     slug: "ai-ml-opportunities-africa",
     featured: false,
   },
@@ -31,7 +31,7 @@ const articles = [
     date: "January 5, 2026",
     readTime: "6 min read",
     excerpt: "An in-depth look at how digital savings platforms are democratizing wealth creation and investment opportunities across the continent.",
-    image: "/news/article-3.jpg",
+    image: "/blogimage3.png",
     slug: "piggyvest-wealth-investment",
     featured: false,
   },
@@ -51,7 +51,7 @@ export function NewsSection() {
             </div>
             <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground">
               Latest from{" "}
-              <span className="text-gradient">Ventures Platform</span>
+              <span className="text-gradient">Awakapital</span>
             </h2>
           </div>
           <Link 
@@ -72,9 +72,10 @@ export function NewsSection() {
           >
             <div className="grid lg:grid-cols-2 gap-8 bg-card border border-border rounded-2xl overflow-hidden hover:border-accent/50 hover:shadow-2xl transition-all duration-500">
               {/* Image */}
-              <div className="relative h-80 lg:h-auto bg-gradient-to-br from-primary/20 to-accent/20 overflow-hidden">
+              <div className="relative h-80 lg:h-auto bg-linear-to-br from-primary/20 to-accent/20 overflow-hidden">
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-6xl font-bold text-accent/20">VP</div>
+                  {/* <div className="text-6xl font-bold text-accent/20">VP</div> */}
+                  <img src={article.image} alt="" />
                 </div>
                 
                 {/* Category Badge */}
@@ -85,7 +86,7 @@ export function NewsSection() {
                 </div>
 
                 {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-linear-to-t from-card to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
 
               {/* Content */}
@@ -128,9 +129,10 @@ export function NewsSection() {
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               {/* Image */}
-              <div className="relative h-56 bg-gradient-to-br from-primary/20 to-accent/20 overflow-hidden">
+              <div className="relative h-56 bg-linear-to-br from-primary/20 to-accent/20 overflow-hidden">
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-4xl font-bold text-accent/20">VP</div>
+                  {/* <div className="text-4xl font-bold text-accent/20">VP</div> */}
+                  <img src={article.image} alt="" />
                 </div>
 
                 {/* Category Badge */}
@@ -141,7 +143,7 @@ export function NewsSection() {
                 </div>
 
                 {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-linear-to-t from-card to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
 
               {/* Content */}

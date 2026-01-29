@@ -4,6 +4,7 @@ import * as React from "react"
 import { ArrowRight, Sparkles } from "lucide-react"
 import { Button } from "./ui/button"
 import { UndulateBackground } from "./UndulateBackground"
+import  Link  from "next/link"
 
 export function HeroSection() {
   return (
@@ -19,13 +20,14 @@ export function HeroSection() {
       <div className="container-custom py-20 relative z-10">
         <div className="max-w-5xl mx-auto text-center space-y-8">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 border border-accent/20 rounded-full text-sm font-medium text-accent animate-scale-in">
-            <Sparkles size={16} className="animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 border border-accent/20 rounded-full text-sm font-medium animate-scale-in text-muted-foreground">
+            {/* <Sparkles size={16} className="animate-pulse" /> */}
             Backing Africa's Next Generation of Founders
           </div>
 
           {/* Main Heading */}
-          <h1 className="text-gradient animate-slide-up">
+          <h1 className="text-accent animate-slide-up">
+            {/* <span className="text-sm font-semibold text-accent uppercase tracking-wider"></span> */}
             We back founders building the future of Africa
           </h1>
 
@@ -43,6 +45,7 @@ export function HeroSection() {
             className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-slide-up"
             style={{ animationDelay: '0.2s' }}
           >
+            <Link href="/apply">
             <Button
               size="lg"
               className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold px-8 py-6 text-lg group hover:glow-accent transition-all duration-300"
@@ -50,6 +53,7 @@ export function HeroSection() {
               Tell us what you're building
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" size={20} />
             </Button>
+            </Link>
             <Button
               size="lg"
               variant="outline"

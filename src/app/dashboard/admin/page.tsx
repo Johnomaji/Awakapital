@@ -94,14 +94,14 @@ export default function AdminDashboard() {
         <div className="container-custom py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">VP</span>
+              <div className="w-10 h-10 bg-linear-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
+                <img src="/logo.png" alt="Awakapital Logo" className="w-6 h-6" />
               </div>
               <div>
                 <span className="text-xl font-display font-bold text-foreground block">
                   Admin Dashboard
                 </span>
-                <span className="text-xs text-muted-foreground">Ventures Platform</span>
+                <span className="text-xs text-muted-foreground">Awakapital</span>
               </div>
             </Link>
 
@@ -289,7 +289,7 @@ export default function AdminDashboard() {
                     </div>
                   </div>
 
-                  <div className="bg-gradient-to-br from-primary to-secondary rounded-xl p-6 text-primary-foreground">
+                  <div className="bg-linear-to-br from-primary to-secondary rounded-xl p-6 text-primary-foreground">
                     <h3 className="text-lg font-semibold mb-6">Performance Metrics</h3>
                     <div className="space-y-6">
                       <div>

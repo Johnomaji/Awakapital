@@ -74,11 +74,12 @@ export default function UserDashboard() {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">VP</span>
+              <div className="w-10 h-10 bg-linear-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
+                {/* <span className="text-primary-foreground font-bold text-lg">VP</span> */}
+                <img src="/logo.png" alt="Awakapital Logo" className="w-6 h-6" />
               </div>
               <span className="text-xl font-display font-bold text-foreground hidden sm:block">
-                Ventures Platform
+                Awakapital
               </span>
             </Link>
 
@@ -237,9 +238,11 @@ export default function UserDashboard() {
                     <p className="text-muted-foreground">
                       Submit your pitch deck and business plan to get started
                     </p>
-                    <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
-                      Submit New Application
-                    </Button>
+                    <Link href="/apply">
+                      <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                        Submit New Application
+                      </Button>
+                    </Link>
                   </div>
                 </div>
 

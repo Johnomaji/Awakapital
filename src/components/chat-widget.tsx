@@ -6,7 +6,7 @@ import { Button } from "./ui/button"
 
 // Knowledge base about the organization
 const knowledgeBase = {
-  about: "Ventures Platform is a leading African venture capital firm that backs founders building the future of Africa. We invest in companies that solve for non-consumption, plug infrastructural gaps, and democratize prosperity across the continent.",
+  about: "Awakapital is a leading African venture capital firm that backs founders building the future of Africa. We invest in companies that solve for non-consumption, plug infrastructural gaps, and democratize prosperity across the continent.",
   
   investment: "We focus on companies that eliminate barriers to access and reduce the costs of delivering goods and services in Africa. Our thesis centers on non-consumption, infrastructure development, democratization, and cost reduction.",
   
@@ -14,7 +14,7 @@ const knowledgeBase = {
   
   portfolio: "Our portfolio includes leading African companies like Paystack (acquired by Stripe), PiggyVest, Moni, Fluna, Brass, Steward, and many others across fintech, health tech, logistics, and more.",
   
-  contact: "You can reach us at hello@venturesplatform.com or visit our office in Lagos, Nigeria. We respond to all inquiries within 24 hours.",
+  contact: "You can reach us at hello@awakapital.com or visit our office in Lagos, Nigeria. We respond to all inquiries within 24 hours.",
   
   funding: "If you're a founder looking for funding, you can submit your pitch deck through our contact form or email us directly. We review all applications and respond within 48 hours.",
   
@@ -61,16 +61,16 @@ function getBotResponse(userMessage: string): string {
   
   // Greetings
   if (message.includes("hello") || message.includes("hi") || message.includes("hey")) {
-    return "Hello! 👋 I'm the Ventures Platform assistant. I can help you learn about our investment thesis, portfolio companies, how to apply for funding, and more. What would you like to know?"
+    return "Hello! 👋 I'm the Awakapital assistant. I can help you learn about our investment thesis, portfolio companies, how to apply for funding, and more. What would you like to know?"
   }
   
   // Thanks
   if (message.includes("thank") || message.includes("thanks")) {
-    return "You're welcome! Feel free to ask me anything else about Ventures Platform. 😊"
+    return "You're welcome! Feel free to ask me anything else about Awakapital. 😊"
   }
   
   // Default response
-  return "I can help you with information about Ventures Platform, including our investment thesis, portfolio companies, funding process, and contact details. What would you like to know more about?"
+  return "I can help you with information about Awakapital, including our investment thesis, portfolio companies, funding process, and contact details. What would you like to know more about?"
 }
 
 export function ChatWidget() {
@@ -78,7 +78,7 @@ export function ChatWidget() {
   const [message, setMessage] = React.useState("")
   const [messages, setMessages] = React.useState<Array<{ text: string; isBot: boolean }>>([
     { 
-      text: "Hi! 👋 I'm the Ventures Platform AI assistant. I can answer questions about our investment thesis, portfolio, funding process, and more. How can I help you today?", 
+      text: "Hi! 👋 I'm the Awakapital AI assistant. I can answer questions about our investment thesis, portfolio, funding process, and more. How can I help you today?", 
       isBot: true 
     }
   ])
@@ -146,7 +146,7 @@ export function ChatWidget() {
         <div className="fixed bottom-24 right-6 z-50 w-full max-w-md animate-scale-in">
           <div className="bg-card border border-border rounded-2xl shadow-2xl overflow-hidden">
             {/* Chat Header */}
-            <div className="bg-gradient-to-r from-primary to-secondary p-6 text-primary-foreground">
+            <div className="bg-linear-to-r from-primary to-secondary p-6 text-primary-foreground">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center">
@@ -178,7 +178,7 @@ export function ChatWidget() {
                 >
                   <div className="flex items-start gap-2 max-w-[85%]">
                     {msg.isBot && (
-                      <div className="w-8 h-8 bg-accent/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                      <div className="w-8 h-8 bg-accent/20 rounded-full flex items-center justify-center shrink-0 mt-1">
                         <Bot size={16} className="text-accent" />
                       </div>
                     )}
@@ -247,7 +247,7 @@ export function ChatWidget() {
                 </Button>
               </div>
               <p className="text-xs text-muted-foreground mt-2">
-                Powered by AI · Trained on Ventures Platform data
+                Powered by AI · Trained on Awakapital data
               </p>
             </form>
           </div>

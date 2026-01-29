@@ -17,7 +17,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Ventures Platform - Backing African Founders",
+  title: "Awakapital - Backing African Founders",
   description: "We invest in companies that solve for non-consumption, plug infrastructural gaps and democratise prosperity in Africa.",
   keywords: ["venture capital", "africa", "startups", "funding", "innovation"],
 };

@@ -12,7 +12,7 @@ const teamMembers = [
     bio: "Kola founded Ventures Platform to back Africa's most innovative founders. With over 15 years of experience in venture capital and technology, he leads our investment strategy across the continent.",
     linkedin: "#",
     twitter: "#",
-    email: "kola@venturesplatform.com",
+    email: "kola@awakapital.com",
     expertise: ["Venture Capital", "Strategy", "African Markets"],
   },
   {
@@ -23,7 +23,7 @@ const teamMembers = [
     bio: "Bunmi leads our fintech and infrastructure investments. She has deep expertise in scaling technology companies across emerging markets.",
     linkedin: "#",
     twitter: "#",
-    email: "bunmi@venturesplatform.com",
+    email: "bunmi@awakapital.com",
     expertise: ["Fintech", "Infrastructure", "Due Diligence"],
   },
   {
@@ -34,7 +34,7 @@ const teamMembers = [
     bio: "Dotun focuses on early-stage investments in health tech and logistics. He brings operational expertise from building multiple startups.",
     linkedin: "#",
     twitter: "#",
-    email: "dotun@venturesplatform.com",
+    email: "dotun@awakapital.com",
     expertise: ["Health Tech", "Logistics", "Operations"],
   },
   {
@@ -45,7 +45,7 @@ const teamMembers = [
     bio: "Tobi supports our portfolio companies with growth strategy and market expansion. She specializes in go-to-market strategies for African markets.",
     linkedin: "#",
     twitter: "#",
-    email: "tobi@venturesplatform.com",
+    email: "tobi@awakapital.com",
     expertise: ["Growth Strategy", "Market Expansion", "Analytics"],
   },
   {
@@ -56,7 +56,7 @@ const teamMembers = [
     bio: "Chinedu leads our platform team, providing operational support to portfolio companies including hiring, finance, and legal assistance.",
     linkedin: "#",
     twitter: "#",
-    email: "chinedu@venturesplatform.com",
+    email: "chinedu@awakapital.com",
     expertise: ["Operations", "Talent", "Legal"],
   },
   {
@@ -67,7 +67,7 @@ const teamMembers = [
     bio: "Amina advises on our climate tech and agriculture investments. She brings deep domain expertise in sustainable development.",
     linkedin: "#",
     twitter: "#",
-    email: "amina@venturesplatform.com",
+    email: "amina@awakapital.com",
     expertise: ["Climate Tech", "Agriculture", "Impact"],
   },
 ]
@@ -98,7 +98,7 @@ export default function TeamPage() {
       
       <main className="pt-20">
         {/* Hero Section */}
-        <section className="py-20 bg-gradient-to-br from-primary via-secondary to-primary text-primary-foreground relative overflow-hidden">
+        <section className="py-20 bg-linear-to-br from-primary via-secondary to-primary text-primary-foreground relative overflow-hidden">
           {/* Decorative Elements */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-accent rounded-full blur-3xl" />
@@ -166,7 +166,7 @@ export default function TeamPage() {
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   {/* Member Image */}
-                  <div className="relative h-80 bg-gradient-to-br from-primary/20 to-accent/20 overflow-hidden">
+                  <div className="relative h-80 bg-linear-to-br from-primary/20 to-accent/20 overflow-hidden">
                     {/* Placeholder - replace with actual image */}
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="w-40 h-40 bg-accent/20 rounded-full flex items-center justify-center text-5xl font-bold text-accent">
@@ -183,7 +183,7 @@ export default function TeamPage() {
                     </div>
 
                     {/* Overlay on Hover */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-card via-card/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute inset-0 bg-linear-to-t from-card via-card/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       {/* Social Links */}
                       <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-3">
                         <a
@@ -248,7 +248,7 @@ export default function TeamPage() {
         {/* Join Our Team CTA */}
         <section className="py-20 bg-card/30">
           <div className="container-custom">
-            <div className="max-w-4xl mx-auto bg-gradient-to-br from-primary to-secondary rounded-2xl p-12 text-center text-primary-foreground relative overflow-hidden">
+            <div className="max-w-4xl mx-auto bg-linear-to-br from-primary to-secondary rounded-2xl p-12 text-center text-primary-foreground relative overflow-hidden">
               {/* Decorative Elements */}
               <div className="absolute inset-0 opacity-10">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-accent rounded-full blur-3xl" />
