@@ -8,6 +8,7 @@ import { NewsletterSection } from "@/components/newsletter-section";
 import { ContactSection } from "@/components/contact-section";
 import { Footer } from "@/components/footer";
 import { ChatWidget } from "@/components/chat-widget";
+import { FAQSection } from "@/components/faq-section";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
         <FoundersSection />
         <NewsSection />
         <NewsletterSection />
+        <FAQSection /> 
         <ContactSection />
       </main>
       <Footer />

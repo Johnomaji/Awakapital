@@ -5,41 +5,41 @@ import { Linkedin, Twitter, ExternalLink } from "lucide-react"
 
 const founders = [
   {
-    name: "Kola Aina",
+    name: "Farida Abubakar Nasir",
     company: "Ventures Platform",
     role: "Founder & General Partner",
-    image: "/GJw7ir1WwAAWGm8.jpg", // Replace with actual image
+    image: "farida.jpg", // Replace with actual image
     bio: "Leading African venture capital with a focus on sustainable growth and infrastructure development.",
     linkedin: "#",
     twitter: "#",
   },
   {
-    name: "Dotun Olowoporoku",
+    name: "Emmanuel Angbula Adakwu",
     company: "Moni",
     role: "Co-Founder & CEO",
-    image: "/GJw7ir1WwAAWGm8.jpg",
+    image: "emmaawakapital.jpeg",
     bio: "Building the future of digital lending in Africa with innovative fintech solutions.",
     linkedin: "#",
     twitter: "#",
   },
-  {
-    name: "Shola Akinlade",
-    company: "Paystack",
-    role: "Co-Founder & CEO",
-    image: "/GJw7ir1WwAAWGm8.jpg",
-    bio: "Revolutionizing online payments across Africa, acquired by Stripe for $200M+.",
-    linkedin: "#",
-    twitter: "#",
-  },
-  {
-    name: "Odunayo Eweniyi",
-    company: "PiggyVest",
-    role: "Co-Founder & COO",
-    image: "/GJw7ir1WwAAWGm8.jpg",
-    bio: "Empowering Africans to save and invest through innovative savings technology.",
-    linkedin: "#",
-    twitter: "#",
-  },
+  // {
+  //   name: "Shola Akinlade",
+  //   company: "Paystack",
+  //   role: "Co-Founder & CEO",
+  //   image: "/GJw7ir1WwAAWGm8.jpg",
+  //   bio: "Revolutionizing online payments across Africa, acquired by Stripe for $200M+.",
+  //   linkedin: "#",
+  //   twitter: "#",
+  // },
+  // {
+  //   name: "Odunayo Eweniyi",
+  //   company: "PiggyVest",
+  //   role: "Co-Founder & COO",
+  //   image: "/GJw7ir1WwAAWGm8.jpg",
+  //   bio: "Empowering Africans to save and invest through innovative savings technology.",
+  //   linkedin: "#",
+  //   twitter: "#",
+  // },
 ]
 
 export function FoundersSection() {
@@ -63,7 +63,7 @@ export function FoundersSection() {
         </div>
 
         {/* Founders Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
           {founders.map((founder, index) => (
             <div
               key={founder.name}

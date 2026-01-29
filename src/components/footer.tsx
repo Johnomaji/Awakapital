@@ -66,7 +66,7 @@ export function Footer() {
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <MapPin size={16} className="text-accent" />
-                <span>Lagos, Nigeria</span>
+                <span>28, Aminu Kano Crescent, Wuse 2, Abuja</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Mail size={16} className="text-accent" />
@@ -76,8 +76,8 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Phone size={16} className="text-accent" />
-                <a href="tel:+234" className="hover:text-accent transition-colors">
-                  +234 (0) XXX XXX XXXX
+                <a href="tel:+2347026799511" className="hover:text-accent transition-colors">
+                  +234 (0) 7026799511
                 </a>
               </div>
             </div>

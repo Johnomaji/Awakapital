@@ -5,71 +5,71 @@ import { Linkedin, Twitter, Mail, ExternalLink } from "lucide-react"
 
 const teamMembers = [
   {
-    name: "Kola Aina",
+    name: "Farida Abubakar Nasir",
     role: "Founder & General Partner",
     department: "Leadership",
-    image: "/GJw7ir1WwAAWGm8.jpg",
-    bio: "Kola founded Ventures Platform to back Africa's most innovative founders. With over 15 years of experience in venture capital and technology, he leads our investment strategy across the continent.",
+    image: "/farida.jpg",
+    bio: "Farida founded Ventures Platform to back Africa's most innovative founders. With over 15 years of experience in venture capital and technology, she leads our investment strategy across the continent.",
     linkedin: "#",
-    twitter: "#",
-    email: "kola@awakapital.com",
+    // twitter: "#",
+    email: "phareedahnasir8@gmail.com",
     expertise: ["Venture Capital", "Strategy", "African Markets"],
   },
   {
-    name: "Bunmi Akinyemiju",
-    role: "Partner",
+    name: "Emmanuel Angbula Adakwu",
+    role: "Director",
     department: "Investments",
-    image: "/GJw7ir1WwAAWGm8.jpg",
-    bio: "Bunmi leads our fintech and infrastructure investments. She has deep expertise in scaling technology companies across emerging markets.",
+    image: "/emmaawakapital.jpeg",
+    bio: "Emmanuel leads our fintech and infrastructure investments. He has deep expertise in scaling technology companies across emerging markets.",
     linkedin: "#",
-    twitter: "#",
-    email: "bunmi@awakapital.com",
+    // twitter: "#",
+    email: "adakwuangbula@gmail.com",
     expertise: ["Fintech", "Infrastructure", "Due Diligence"],
   },
-  {
-    name: "Dotun Olowoporoku",
-    role: "Principal",
-    department: "Investments",
-    image: "/GJw7ir1WwAAWGm8.jpg",
-    bio: "Dotun focuses on early-stage investments in health tech and logistics. He brings operational expertise from building multiple startups.",
-    linkedin: "#",
-    twitter: "#",
-    email: "dotun@awakapital.com",
-    expertise: ["Health Tech", "Logistics", "Operations"],
-  },
-  {
-    name: "Oluwatobi Ajayi",
-    role: "Investment Associate",
-    department: "Investments",
-    image: "/GJw7ir1WwAAWGm8.jpg",
-    bio: "Tobi supports our portfolio companies with growth strategy and market expansion. She specializes in go-to-market strategies for African markets.",
-    linkedin: "#",
-    twitter: "#",
-    email: "tobi@awakapital.com",
-    expertise: ["Growth Strategy", "Market Expansion", "Analytics"],
-  },
-  {
-    name: "Chinedu Eze",
-    role: "Head of Platform",
-    department: "Platform",
-    image: "/GJw7ir1WwAAWGm8.jpg",
-    bio: "Chinedu leads our platform team, providing operational support to portfolio companies including hiring, finance, and legal assistance.",
-    linkedin: "#",
-    twitter: "#",
-    email: "chinedu@awakapital.com",
-    expertise: ["Operations", "Talent", "Legal"],
-  },
-  {
-    name: "Amina Yusuf",
-    role: "Venture Partner",
-    department: "Advisory",
-    image: "/GJw7ir1WwAAWGm8.jpg",
-    bio: "Amina advises on our climate tech and agriculture investments. She brings deep domain expertise in sustainable development.",
-    linkedin: "#",
-    twitter: "#",
-    email: "amina@awakapital.com",
-    expertise: ["Climate Tech", "Agriculture", "Impact"],
-  },
+  // {
+  //   name: "Dotun Olowoporoku",
+  //   role: "Principal",
+  //   department: "Investments",
+  //   image: "/GJw7ir1WwAAWGm8.jpg",
+  //   bio: "Dotun focuses on early-stage investments in health tech and logistics. He brings operational expertise from building multiple startups.",
+  //   linkedin: "#",
+  //   twitter: "#",
+  //   email: "dotun@awakapital.com",
+  //   expertise: ["Health Tech", "Logistics", "Operations"],
+  // },
+  // {
+  //   name: "Oluwatobi Ajayi",
+  //   role: "Investment Associate",
+  //   department: "Investments",
+  //   image: "/GJw7ir1WwAAWGm8.jpg",
+  //   bio: "Tobi supports our portfolio companies with growth strategy and market expansion. She specializes in go-to-market strategies for African markets.",
+  //   linkedin: "#",
+  //   twitter: "#",
+  //   email: "tobi@awakapital.com",
+  //   expertise: ["Growth Strategy", "Market Expansion", "Analytics"],
+  // },
+  // {
+  //   name: "Chinedu Eze",
+  //   role: "Head of Platform",
+  //   department: "Platform",
+  //   image: "/GJw7ir1WwAAWGm8.jpg",
+  //   bio: "Chinedu leads our platform team, providing operational support to portfolio companies including hiring, finance, and legal assistance.",
+  //   linkedin: "#",
+  //   twitter: "#",
+  //   email: "chinedu@awakapital.com",
+  //   expertise: ["Operations", "Talent", "Legal"],
+  // },
+  // {
+  //   name: "Amina Yusuf",
+  //   role: "Venture Partner",
+  //   department: "Advisory",
+  //   image: "/GJw7ir1WwAAWGm8.jpg",
+  //   bio: "Amina advises on our climate tech and agriculture investments. She brings deep domain expertise in sustainable development.",
+  //   linkedin: "#",
+  //   twitter: "#",
+  //   email: "amina@awakapital.com",
+  //   expertise: ["Climate Tech", "Agriculture", "Impact"],
+  // },
 ]
 
 const departments = [
@@ -158,7 +158,7 @@ export default function TeamPage() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
               {teamMembers.map((member, index) => (
                 <div
                   key={member.name}
@@ -193,13 +193,13 @@ export default function TeamPage() {
                         >
                           <Linkedin size={18} />
                         </a>
-                        <a
+                        {/* <a
                           href={member.twitter}
                           className="w-10 h-10 bg-accent hover:bg-accent/90 rounded-full flex items-center justify-center text-accent-foreground transition-all hover:scale-110"
                           aria-label="Twitter"
                         >
                           <Twitter size={18} />
-                        </a>
+                        </a> */}
                         <a
                           href={`mailto:${member.email}`}
                           className="w-10 h-10 bg-accent hover:bg-accent/90 rounded-full flex items-center justify-center text-accent-foreground transition-all hover:scale-110"

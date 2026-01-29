@@ -1,8 +1,9 @@
 "use client"
 
 import * as React from "react"
-import { Mail, MessageSquare, Phone, MapPin, Send, Link } from "lucide-react"
+import { Mail, MessageSquare, Phone, MapPin, Send, } from "lucide-react"
 import { Button } from "./ui/button"
+import Link  from "next/link"
 
 export function ContactSection() {
   const [formData, setFormData] = React.useState({
@@ -74,8 +75,8 @@ export function ContactSection() {
                   <div className="space-y-1">
                     <h3 className="font-semibold text-foreground">Call Us</h3>
                     <p className="text-sm text-muted-foreground">Mon-Fri from 9am to 5pm WAT</p>
-                    <a href="tel:+234" className="text-sm text-accent hover:underline font-medium">
-                      +234 (0) XXX XXX XXXX
+                    <a href="tel:+2347026799511" className="text-sm text-accent hover:underline font-medium">
+                      +234 (0) 7026799511
                     </a>
                   </div>
                 </div>
