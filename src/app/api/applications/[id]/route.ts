@@ -17,6 +17,7 @@ function verifyToken(request: Request) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any
     return decoded
   } catch (error) {
+    console.error('Token verification error:', error)
     return null
   }
 }
@@ -24,9 +25,12 @@ function verifyToken(request: Request) {
 // PATCH - Update application status (admin only)
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }  // ← Changed: params is now a Promise
 ) {
   try {
+    // Await params (Next.js 15+ requirement)
+    const params = await context.params
+    
     // Verify token
     const decoded = verifyToken(request)
     
@@ -93,9 +97,12 @@ export async function PATCH(
 // GET - Get single application
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }  // ← Changed: params is now a Promise
 ) {
   try {
+    // Await params (Next.js 15+ requirement)
+    const params = await context.params
+    
     const decoded = verifyToken(request)
     
     if (!decoded) {
