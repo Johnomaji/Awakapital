@@ -60,84 +60,70 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const login = async (email: string, password: string): Promise<boolean> => {
-    setIsLoading(true)
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000))
+  setIsLoading(true)
+  
+  try {
+    // Call your API
+    const response = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    })
 
-    // Get all users from localStorage
-    const usersStr = localStorage.getItem("vp_users")
-    const users: User[] = usersStr ? JSON.parse(usersStr) : []
+    const data = await response.json()
 
-    // Check for admin account
-    if (email === "admin@awakapital.com" && password === "admin123") {
-      const adminUser: User = {
-        id: "admin-1",
-        email: "admin@awakapital.com",
-        name: "Admin User",
-        role: "admin",
-        createdAt: new Date().toISOString(),
-      }
-      setUser(adminUser)
-      localStorage.setItem("vp_user", JSON.stringify(adminUser))
+    if (data.success) {
+      // Save user and token
+      setUser(data.user)
+      localStorage.setItem('vp_token', data.token)
+      localStorage.setItem('vp_user', JSON.stringify(data.user))
+      
+      // Redirect based on role
+      router.push(data.user.role === 'admin' ? '/dashboard/admin' : '/dashboard')
       setIsLoading(false)
-      router.push("/dashboard/admin")
-      return true
-    }
-
-    // Check for regular user
-    const foundUser = users.find(u => u.email === email)
-    if (foundUser && password === "password123") { // Demo password
-      setUser(foundUser)
-      localStorage.setItem("vp_user", JSON.stringify(foundUser))
-      setIsLoading(false)
-      router.push("/dashboard")
       return true
     }
 
     setIsLoading(false)
     return false
+  } catch (error) {
+    console.error('Login error:', error)
+    setIsLoading(false)
+    return false
   }
+}
 
   const signup = async (name: string, email: string, password: string): Promise<boolean> => {
-    setIsLoading(true)
+  setIsLoading(true)
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000))
+  try {
+    // Call signup API
+    const response = await fetch('/api/auth/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password }),
+    })
 
-    // Get existing users
-    const usersStr = localStorage.getItem("vp_users")
-    const users: User[] = usersStr ? JSON.parse(usersStr) : []
+    const data = await response.json()
 
-    // Check if user already exists
-    if (users.find(u => u.email === email)) {
-      setIsLoading(false)
-      return false
+    if (data.success) {
+      // Auto-login after successful signup
+      return await login(email, password)
     }
 
-    // Create new user
-    const newUser: User = {
-      id: `user-${Date.now()}`,
-      email,
-      name,
-      role: "user",
-      createdAt: new Date().toISOString(),
-    }
-
-    // Save to localStorage
-    users.push(newUser)
-    localStorage.setItem("vp_users", JSON.stringify(users))
-    localStorage.setItem("vp_user", JSON.stringify(newUser))
-
-    setUser(newUser)
     setIsLoading(false)
-    router.push("/dashboard")
-    return true
+    return false
+  } catch (error) {
+    console.error('Signup error:', error)
+    setIsLoading(false)
+    return false
   }
+}
 
   const logout = () => {
     setUser(null)
     localStorage.removeItem("vp_user")
+    localStorage.removeItem("vp_token")
     router.push("/")
   }
 

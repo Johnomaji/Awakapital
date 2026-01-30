@@ -91,7 +91,7 @@ export function ContactSection() {
                     <h3 className="font-semibold text-foreground">Visit Us</h3>
                     <p className="text-sm text-muted-foreground">Come say hello at our office</p>
                     <p className="text-sm text-accent font-medium">
-                      Lagos, Nigeria
+                      28, Aminu Kano Crescent, Wuse 2, Abuja
                     </p>
                   </div>
                 </div>

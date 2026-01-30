@@ -17,20 +17,41 @@ export default function UserDashboard() {
   const [applications, setApplications] = React.useState<Application[]>([])
   const [activeTab, setActiveTab] = React.useState<"overview" | "applications" | "profile">("overview")
 
-  // Load applications from localStorage
-  React.useEffect(() => {
-    if (!user) {
-      router.push("/login")
-      return
-    }
+// Load applications from API
+React.useEffect(() => {
+  if (!user) {
+    router.push("/login")
+    return
+  }
 
-    const appsStr = localStorage.getItem("vp_applications")
-    if (appsStr) {
-      const allApps: Application[] = JSON.parse(appsStr)
-      const userApps = allApps.filter(app => app.userId === user.id)
-      setApplications(userApps)
+  // Fetch applications from API
+  const fetchApplications = async () => {
+    try {
+      const token = localStorage.getItem('vp_token')
+      
+      if (!token) {
+        console.error('No token found')
+        return
+      }
+
+      const response = await fetch('/api/applications', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+
+      const data = await response.json()
+
+      if (data.success && data.applications) {
+        setApplications(data.applications)
+      }
+    } catch (error) {
+      console.error('Failed to fetch applications:', error)
     }
-  }, [user, router])
+  }
+
+  fetchApplications()
+}, [user, router])
 
   if (!user) {
     return <div className="min-h-screen flex items-center justify-center">

@@ -20,25 +20,49 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = React.useState<"overview" | "applications" | "users">("overview")
   const [filterStatus, setFilterStatus] = React.useState<string>("all")
 
-  // Load data from localStorage
-  React.useEffect(() => {
-    if (!user || user.role !== "admin") {
-      router.push("/login")
-      return
-    }
+  // Load data from API
+React.useEffect(() => {
+  if (!user || user.role !== "admin") {
+    router.push("/login")
+    return
+  }
 
-    // Load applications
-    const appsStr = localStorage.getItem("vp_applications")
-    if (appsStr) {
-      setApplications(JSON.parse(appsStr))
-    }
+  // Fetch applications from API
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem('vp_token')
+      
+      if (!token) {
+        console.error('No token found')
+        return
+      }
 
-    // Load users
-    const usersStr = localStorage.getItem("vp_users")
-    if (usersStr) {
-      setUsers(JSON.parse(usersStr))
+      // Fetch applications
+      const appsResponse = await fetch('/api/applications', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+
+      const appsData = await appsResponse.json()
+
+      if (appsData.success && appsData.applications) {
+        setApplications(appsData.applications)
+      }
+
+      // Note: Users endpoint needs to be created separately
+      // For now, load from localStorage as fallback
+      const usersStr = localStorage.getItem("vp_users")
+      if (usersStr) {
+        setUsers(JSON.parse(usersStr))
+      }
+    } catch (error) {
+      console.error('Failed to fetch data:', error)
     }
-  }, [user, router])
+  }
+
+  fetchData()
+}, [user, router])
 
   if (!user || user.role !== "admin") {
     return <div className="min-h-screen flex items-center justify-center">
@@ -58,21 +82,43 @@ export default function AdminDashboard() {
       : 0,
   }
 
-  const handleStatusChange = (appId: string, newStatus: Application["status"]) => {
-    const updatedApps = applications.map(app => {
-      if (app.id === appId) {
-        return {
-          ...app,
-          status: newStatus,
-          reviewedAt: new Date().toISOString(),
-          reviewedBy: user.name,
+        const handleStatusChange = async (appId: string, newStatus: Application["status"]) => {
+        try {
+          const token = localStorage.getItem('vp_token')
+          
+          const response = await fetch(`/api/applications/${appId}`, {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              status: newStatus,
+              notes: '', // Add notes field if needed
+            }),
+          })
+
+          const data = await response.json()
+
+          if (data.success) {
+            // Update local state
+            const updatedApps = applications.map(app => {
+              if (app.id === appId) {
+                return {
+                  ...app,
+                  status: newStatus,
+                  reviewedAt: new Date().toISOString(),
+                  reviewedBy: user.name,
+                }
+              }
+              return app
+            })
+            setApplications(updatedApps)
+          }
+        } catch (error) {
+          console.error('Failed to update application:', error)
         }
       }
-      return app
-    })
-    setApplications(updatedApps)
-    localStorage.setItem("vp_applications", JSON.stringify(updatedApps))
-  }
 
   const filteredApplications = filterStatus === "all" 
     ? applications 

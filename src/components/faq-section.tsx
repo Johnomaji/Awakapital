@@ -10,7 +10,7 @@ const faqs = [
   },
   {
     question: "What is your typical investment size?",
-    answer: "We typically invest between $50,000 to $500,000 in initial funding rounds, with reserves for follow-on investments. The exact amount depends on the stage of your company, traction, and funding requirements.",
+    answer: "We typically invest between $5,000 to $100,000 in initial funding rounds, with reserves for follow-on investments. The exact amount depends on the stage of your company, traction, and funding requirements.",
   },
   {
     question: "What stage companies do you invest in?",
