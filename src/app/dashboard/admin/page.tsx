@@ -19,16 +19,10 @@ export default function AdminDashboard() {
   const [users, setUsers] = React.useState<UserType[]>([])
   const [activeTab, setActiveTab] = React.useState<"overview" | "applications" | "users">("overview")
   const [filterStatus, setFilterStatus] = React.useState<string>("all")
+  const [isRefreshing, setIsRefreshing] = React.useState(false)
 
-  // Load data from API
-React.useEffect(() => {
-  if (!user || user.role !== "admin") {
-    router.push("/login")
-    return
-  }
-
-  // Fetch applications from API
-  const fetchData = async () => {
+  // Fetch data function
+  const fetchData = React.useCallback(async () => {
     try {
       const token = localStorage.getItem('vp_token')
       
@@ -37,7 +31,6 @@ React.useEffect(() => {
         return
       }
 
-      // Fetch applications
       const appsResponse = await fetch('/api/applications', {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -50,19 +43,26 @@ React.useEffect(() => {
         setApplications(appsData.applications)
       }
 
-      // Note: Users endpoint needs to be created separately
-      // For now, load from localStorage as fallback
       const usersStr = localStorage.getItem("vp_users")
       if (usersStr) {
         setUsers(JSON.parse(usersStr))
       }
     } catch (error) {
       console.error('Failed to fetch data:', error)
+    } finally {
+      setIsRefreshing(false)
     }
-  }
+  }, [])
 
-  fetchData()
-}, [user, router])
+  // Load data from API
+  React.useEffect(() => {
+    if (!user || user.role !== "admin") {
+      router.push("/login")
+      return
+    }
+
+    fetchData()
+  }, [user, router, fetchData])
 
   if (!user || user.role !== "admin") {
     return <div className="min-h-screen flex items-center justify-center">
@@ -82,43 +82,86 @@ React.useEffect(() => {
       : 0,
   }
 
-        const handleStatusChange = async (appId: string, newStatus: Application["status"]) => {
-        try {
-          const token = localStorage.getItem('vp_token')
-          
-          const response = await fetch(`/api/applications/${appId}`, {
-            method: 'PATCH',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`,
-            },
-            body: JSON.stringify({
+  // Handle status change
+  const handleStatusChange = async (appId: string, newStatus: Application["status"]) => {
+    try {
+      const token = localStorage.getItem('vp_token')
+      
+      const response = await fetch(`/api/applications/${appId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          status: newStatus,
+          notes: '',
+        }),
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        // Update local state - handle both id and _id
+        const updatedApps = applications.map(app => {
+          const currentId = (app as any)._id?.toString() || app.id
+          if (currentId === appId) {
+            return {
+              ...app,
               status: newStatus,
-              notes: '', // Add notes field if needed
-            }),
-          })
-
-          const data = await response.json()
-
-          if (data.success) {
-            // Update local state
-            const updatedApps = applications.map(app => {
-              if (app.id === appId) {
-                return {
-                  ...app,
-                  status: newStatus,
-                  reviewedAt: new Date().toISOString(),
-                  reviewedBy: user.name,
-                }
-              }
-              return app
-            })
-            setApplications(updatedApps)
+              reviewedAt: new Date().toISOString(),
+              reviewedBy: user.name,
+            }
           }
-        } catch (error) {
-          console.error('Failed to update application:', error)
-        }
+          return app
+        })
+        setApplications(updatedApps)
+      } else {
+        alert('Failed to update status: ' + (data.error || 'Unknown error'))
       }
+    } catch (error) {
+      console.error('Failed to update application:', error)
+      alert('Error updating application. Please try again.')
+    }
+  }
+
+  // Handle refresh
+  const handleRefresh = async () => {
+    setIsRefreshing(true)
+    await fetchData()
+  }
+
+  // Handle export to CSV
+  const handleExport = () => {
+    if (applications.length === 0) {
+      alert('No applications to export')
+      return
+    }
+
+    const csvContent = [
+      ['Company', 'Founder', 'Email', 'Industry', 'Stage', 'Funding', 'Status', 'Submitted'].join(','),
+      ...applications.map(app => [
+        `"${app.companyName}"`,
+        `"${app.founderName}"`,
+        app.email,
+        app.industry,
+        app.stage,
+        `"${app.fundingAmount}"`,
+        app.status,
+        new Date((app as any).submittedAt || (app as any).createdAt).toLocaleDateString()
+      ].join(','))
+    ].join('\n')
+
+    const blob = new Blob([csvContent], { type: 'text/csv' })
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `applications-${new Date().toISOString().split('T')[0]}.csv`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    window.URL.revokeObjectURL(url)
+  }
 
   const filteredApplications = filterStatus === "all" 
     ? applications 
@@ -140,7 +183,7 @@ React.useEffect(() => {
         <div className="container-custom py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-linear-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
                 <img src="/logo.png" alt="Awakapital Logo" className="w-6 h-6" />
               </div>
               <div>
@@ -154,7 +197,9 @@ React.useEffect(() => {
             <div className="flex items-center gap-4">
               <button className="relative p-2 hover:bg-accent/10 rounded-lg transition-colors">
                 <Bell size={20} className="text-muted-foreground" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-accent rounded-full" />
+                {stats.pending > 0 && (
+                  <span className="absolute top-1 right-1 w-2 h-2 bg-accent rounded-full" />
+                )}
               </button>
               
               <button className="p-2 hover:bg-accent/10 rounded-lg transition-colors">
@@ -292,7 +337,7 @@ React.useEffect(() => {
                         <div className="h-2 bg-muted rounded-full overflow-hidden">
                           <div 
                             className="h-full bg-yellow-500 rounded-full transition-all"
-                            style={{ width: `${(stats.pending / stats.totalApplications) * 100}%` }}
+                            style={{ width: stats.totalApplications > 0 ? `${(stats.pending / stats.totalApplications) * 100}%` : '0%' }}
                           />
                         </div>
                       </div>
@@ -304,7 +349,7 @@ React.useEffect(() => {
                         <div className="h-2 bg-muted rounded-full overflow-hidden">
                           <div 
                             className="h-full bg-blue-500 rounded-full transition-all"
-                            style={{ width: `${(stats.inReview / stats.totalApplications) * 100}%` }}
+                            style={{ width: stats.totalApplications > 0 ? `${(stats.inReview / stats.totalApplications) * 100}%` : '0%' }}
                           />
                         </div>
                       </div>
@@ -316,7 +361,7 @@ React.useEffect(() => {
                         <div className="h-2 bg-muted rounded-full overflow-hidden">
                           <div 
                             className="h-full bg-green-500 rounded-full transition-all"
-                            style={{ width: `${(stats.approved / stats.totalApplications) * 100}%` }}
+                            style={{ width: stats.totalApplications > 0 ? `${(stats.approved / stats.totalApplications) * 100}%` : '0%' }}
                           />
                         </div>
                       </div>
@@ -328,14 +373,14 @@ React.useEffect(() => {
                         <div className="h-2 bg-muted rounded-full overflow-hidden">
                           <div 
                             className="h-full bg-red-500 rounded-full transition-all"
-                            style={{ width: `${(stats.rejected / stats.totalApplications) * 100}%` }}
+                            style={{ width: stats.totalApplications > 0 ? `${(stats.rejected / stats.totalApplications) * 100}%` : '0%' }}
                           />
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-linear-to-br from-primary to-secondary rounded-xl p-6 text-primary-foreground">
+                  <div className="bg-gradient-to-br from-primary to-secondary rounded-xl p-6 text-primary-foreground">
                     <h3 className="text-lg font-semibold mb-6">Performance Metrics</h3>
                     <div className="space-y-6">
                       <div>
@@ -345,11 +390,11 @@ React.useEffect(() => {
                       <div className="grid grid-cols-2 gap-4 pt-4 border-t border-primary-foreground/20">
                         <div>
                           <p className="text-primary-foreground/70 text-sm mb-1">This Month</p>
-                          <p className="text-2xl font-bold">12</p>
+                          <p className="text-2xl font-bold">{stats.totalApplications}</p>
                         </div>
                         <div>
                           <p className="text-primary-foreground/70 text-sm mb-1">Avg. Review Time</p>
-                          <p className="text-2xl font-bold">3d</p>
+                          <p className="text-2xl font-bold">2d</p>
                         </div>
                       </div>
                     </div>
@@ -367,37 +412,48 @@ React.useEffect(() => {
                     </Button>
                   </div>
                   <div className="space-y-4">
-                    {applications.slice(0, 5).map((app) => (
-                      <div key={app.id} className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
-                        <div className="flex items-start justify-between gap-4">
-                          <div className="flex-1">
-                            <div className="flex items-start justify-between mb-2">
-                              <div>
-                                <h3 className="font-semibold text-foreground">{app.companyName}</h3>
-                                <p className="text-sm text-muted-foreground">{app.founderName} · {app.industry}</p>
+                    {applications.slice(0, 5).map((app) => {
+                      const appId = (app as any)._id?.toString() || app.id
+                      return (
+                        <div key={appId} className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
+                          <div className="flex items-start justify-between gap-4">
+                            <div className="flex-1">
+                              <div className="flex items-start justify-between mb-2">
+                                <div>
+                                  <h3 className="font-semibold text-foreground">{app.companyName}</h3>
+                                  <p className="text-sm text-muted-foreground">{app.founderName} · {app.industry}</p>
+                                </div>
+                                <div className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(app.status)}`}>
+                                  {app.status.toUpperCase()}
+                                </div>
                               </div>
-                              <div className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(app.status)}`}>
-                                {app.status.toUpperCase()}
+                              <div className="flex items-center gap-4 text-sm text-muted-foreground mt-3">
+                                <span className="flex items-center gap-1">
+                                  <Calendar size={14} />
+                                  {new Date((app as any).submittedAt || (app as any).createdAt).toLocaleDateString()}
+                                </span>
+                                <span className="flex items-center gap-1">
+                                  <DollarSign size={14} />
+                                  {app.fundingAmount}
+                                </span>
                               </div>
                             </div>
-                            <div className="flex items-center gap-4 text-sm text-muted-foreground mt-3">
-                              <span className="flex items-center gap-1">
-                                <Calendar size={14} />
-                                {new Date(app.submittedAt).toLocaleDateString()}
-                              </span>
-                              <span className="flex items-center gap-1">
-                                <DollarSign size={14} />
-                                {app.fundingAmount}
-                              </span>
-                            </div>
+                            {app.status === "pending" && (
+                              <div className="flex gap-2">
+                                <Button
+                                  size="sm"
+                                  onClick={() => handleStatusChange(appId, "approved")}
+                                  className="bg-green-500 hover:bg-green-600 text-white"
+                                >
+                                  <CheckCircle size={16} className="mr-1" />
+                                  Approve
+                                </Button>
+                              </div>
+                            )}
                           </div>
-                          <Button size="sm" variant="outline">
-                            <Eye size={16} className="mr-2" />
-                            Review
-                          </Button>
                         </div>
-                      </div>
-                    ))}
+                      )
+                    })}
                   </div>
                 </div>
               </div>
@@ -415,12 +471,24 @@ React.useEffect(() => {
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Button variant="outline" size="sm" className="gap-2">
+                    <Button 
+                      onClick={handleExport}
+                      variant="outline" 
+                      size="sm" 
+                      className="gap-2"
+                      disabled={applications.length === 0}
+                    >
                       <Download size={16} />
                       Export
                     </Button>
-                    <Button variant="outline" size="sm" className="gap-2">
-                      <RefreshCw size={16} />
+                    <Button 
+                      onClick={handleRefresh}
+                      disabled={isRefreshing}
+                      variant="outline" 
+                      size="sm" 
+                      className="gap-2"
+                    >
+                      <RefreshCw size={16} className={isRefreshing ? "animate-spin" : ""} />
                       Refresh
                     </Button>
                   </div>
@@ -456,105 +524,107 @@ React.useEffect(() => {
                       <p className="text-muted-foreground">No applications found</p>
                     </div>
                   ) : (
-                    filteredApplications.map((app) => (
-                      <div key={app.id} className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
-                        <div className="flex items-start justify-between gap-4 mb-4">
-                          <div className="flex-1">
-                            <h3 className="text-xl font-semibold text-foreground mb-2">{app.companyName}</h3>
-                            <p className="text-muted-foreground mb-4">{app.description}</p>
-                            <div className="flex flex-wrap gap-4 text-sm">
-                              <span className="flex items-center gap-1.5 text-muted-foreground">
-                                {/* <User className="text-accent" size={16} /> */}
-                                {app.founderName}
-                              </span>
-                              <span className="flex items-center gap-1.5 text-muted-foreground">
-                                <Mail className="text-accent" size={16} />
-                                {app.email}
-                              </span>
-                              <span className="flex items-center gap-1.5 text-muted-foreground">
-                                <Briefcase className="text-accent" size={16} />
-                                {app.industry}
-                              </span>
-                              <span className="flex items-center gap-1.5 text-muted-foreground">
-                                <DollarSign className="text-accent" size={16} />
-                                {app.fundingAmount}
-                              </span>
+                    filteredApplications.map((app) => {
+                      const appId = (app as any)._id?.toString() || app.id
+                      return (
+                        <div key={appId} className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
+                          <div className="flex items-start justify-between gap-4 mb-4">
+                            <div className="flex-1">
+                              <h3 className="text-xl font-semibold text-foreground mb-2">{app.companyName}</h3>
+                              <p className="text-muted-foreground mb-4 line-clamp-2">{app.description}</p>
+                              <div className="flex flex-wrap gap-4 text-sm">
+                                <span className="flex items-center gap-1.5 text-muted-foreground">
+                                  {app.founderName}
+                                </span>
+                                <span className="flex items-center gap-1.5 text-muted-foreground">
+                                  <Mail className="text-accent" size={16} />
+                                  {app.email}
+                                </span>
+                                <span className="flex items-center gap-1.5 text-muted-foreground">
+                                  <Briefcase className="text-accent" size={16} />
+                                  {app.industry}
+                                </span>
+                                <span className="flex items-center gap-1.5 text-muted-foreground">
+                                  <DollarSign className="text-accent" size={16} />
+                                  {app.fundingAmount}
+                                </span>
+                              </div>
+                            </div>
+                            <div className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border ${getStatusColor(app.status)}`}>
+                              {app.status.toUpperCase()}
                             </div>
                           </div>
-                          <div className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border ${getStatusColor(app.status)}`}>
-                            {app.status.toUpperCase()}
-                          </div>
-                        </div>
 
-                        <div className="flex items-center justify-between pt-4 border-t border-border">
-                          <span className="text-sm text-muted-foreground">
-                            Submitted: {new Date(app.submittedAt).toLocaleDateString()}
-                          </span>
-                          <div className="flex items-center gap-2">
-                            {app.status === "pending" && (
-                              <>
+                          <div className="flex items-center justify-between pt-4 border-t border-border">
+                            <span className="text-sm text-muted-foreground">
+                              Submitted: {new Date((app as any).submittedAt || (app as any).createdAt).toLocaleDateString()}
+                            </span>
+                            <div className="flex items-center gap-2">
+                              {app.status === "pending" && (
+                                <>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => handleStatusChange(appId, "in-review")}
+                                    className="gap-2"
+                                  >
+                                    <Eye size={16} />
+                                    Review
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    onClick={() => handleStatusChange(appId, "approved")}
+                                    className="bg-green-500 hover:bg-green-600 text-white gap-2"
+                                  >
+                                    <CheckCircle size={16} />
+                                    Approve
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="destructive"
+                                    onClick={() => handleStatusChange(appId, "rejected")}
+                                    className="gap-2"
+                                  >
+                                    <XCircle size={16} />
+                                    Reject
+                                  </Button>
+                                </>
+                              )}
+                              {app.status === "in-review" && (
+                                <>
+                                  <Button
+                                    size="sm"
+                                    onClick={() => handleStatusChange(appId, "approved")}
+                                    className="bg-green-500 hover:bg-green-600 text-white gap-2"
+                                  >
+                                    <CheckCircle size={16} />
+                                    Approve
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="destructive"
+                                    onClick={() => handleStatusChange(appId, "rejected")}
+                                    className="gap-2"
+                                  >
+                                    <XCircle size={16} />
+                                    Reject
+                                  </Button>
+                                </>
+                              )}
+                              {(app.status === "approved" || app.status === "rejected") && (
                                 <Button
                                   size="sm"
                                   variant="outline"
-                                  onClick={() => handleStatusChange(app.id, "in-review")}
-                                  className="gap-2"
+                                  onClick={() => handleStatusChange(appId, "pending")}
                                 >
-                                  <Eye size={16} />
-                                  Review
+                                  Reset Status
                                 </Button>
-                                <Button
-                                  size="sm"
-                                  onClick={() => handleStatusChange(app.id, "approved")}
-                                  className="bg-green-500 hover:bg-green-600 text-white gap-2"
-                                >
-                                  <CheckCircle size={16} />
-                                  Approve
-                                </Button>
-                                <Button
-                                  size="sm"
-                                  variant="destructive"
-                                  onClick={() => handleStatusChange(app.id, "rejected")}
-                                  className="gap-2"
-                                >
-                                  <XCircle size={16} />
-                                  Reject
-                                </Button>
-                              </>
-                            )}
-                            {app.status === "in-review" && (
-                              <>
-                                <Button
-                                  size="sm"
-                                  onClick={() => handleStatusChange(app.id, "approved")}
-                                  className="bg-green-500 hover:bg-green-600 text-white gap-2"
-                                >
-                                  <CheckCircle size={16} />
-                                  Approve
-                                </Button>
-                                <Button
-                                  size="sm"
-                                  variant="destructive"
-                                  onClick={() => handleStatusChange(app.id, "rejected")}
-                                  className="gap-2"
-                                >
-                                  <XCircle size={16} />
-                                  Reject
-                                </Button>
-                              </>
-                            )}
-                            {(app.status === "approved" || app.status === "rejected") && (
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                onClick={() => handleStatusChange(app.id, "pending")}
-                              >
-                                Reset Status
-                              </Button>
-                            )}
+                              )}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))
+                      )
+                    })
                   )}
                 </div>
               </div>

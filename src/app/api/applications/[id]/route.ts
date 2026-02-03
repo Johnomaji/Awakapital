@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import dbConnect from '@/lib/db'
 import Application from '@/models/Application'
 import jwt from 'jsonwebtoken'
+import { sendApplicationApprovedEmail, sendApplicationRejectedEmail } from '@/lib/email'
 
 // Helper function to verify token
 function verifyToken(request: Request) {
@@ -73,6 +74,7 @@ export async function PATCH(
       },
       { new: true }
     )
+    .populate('userId', 'name email')
 
     if (!application) {
       return NextResponse.json(
@@ -81,10 +83,25 @@ export async function PATCH(
       )
     }
 
-    return NextResponse.json({
-      success: true,
-      application
-    })
+    // 📧 Send status update email
+    if (status === 'approved') {
+    const user = application.userId as any
+    sendApplicationApprovedEmail(
+        user.name,
+        user.email,
+        application.companyName
+    ).catch(console.error)
+    } else if (status === 'rejected') {
+    const user = application.userId as any
+    sendApplicationRejectedEmail(
+        user.name,
+        user.email,
+        application.companyName
+    ).catch(console.error)
+    }
+
+    return NextResponse.json({ success: true, application })
+
   } catch (error: any) {
     console.error('PATCH application error:', error)
     return NextResponse.json(

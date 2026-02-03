@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import dbConnect from '@/lib/db'
 import User from '@/models/User'
+import { sendWelcomeEmail } from '@/lib/email'
 
 export async function POST(request: Request) {
   try {
@@ -27,6 +28,19 @@ export async function POST(request: Request) {
       email,
       password: hashedPassword,
       role: 'user',
+    })
+
+    // 📧 Send welcome email (don't await - send async)
+    sendWelcomeEmail(user.name, user.email).catch(console.error)
+
+    return NextResponse.json({
+    success: true,
+    user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+    }
     })
 
     return NextResponse.json({

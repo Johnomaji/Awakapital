@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import dbConnect from '@/lib/db'
 import Application from '@/models/Application'
 import jwt from 'jsonwebtoken'
+import { sendApplicationSubmittedEmail, sendAdminNotificationEmail } from '@/lib/email'
 
 // Helper function to verify token
 function verifyToken(request: Request) {
@@ -105,15 +106,28 @@ export async function POST(request: Request) {
       status: 'pending',
     })
 
-    return NextResponse.json({
-      success: true,
-      application: {
-        id: application._id,
-        companyName: application.companyName,
-        status: application.status,
-        submittedAt: application.createdAt,
-      }
-    }, { status: 201 })
+
+    // 📧 Send confirmation email to founder (async)
+    sendApplicationSubmittedEmail(
+    application.founderName,
+    application.email,
+    application.companyName,
+    application.fundingAmount
+    ).catch(console.error)
+
+    // 📧 Notify admin of new application (async)
+    sendAdminNotificationEmail({
+    companyName: application.companyName,
+    founderName: application.founderName,
+    email: application.email,
+    industry: application.industry,
+    stage: application.stage,
+    fundingAmount: application.fundingAmount,
+    }).catch(console.error)
+
+    return NextResponse.json({ success: true, application })
+
+   
   } catch (error: any) {
     console.error('POST application error:', error)
     return NextResponse.json(

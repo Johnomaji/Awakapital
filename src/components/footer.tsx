@@ -19,14 +19,14 @@ const footerLinks = {
   ],
   founders: [
     { name: "How We Invest", href: "#invest" },
-    { name: "Application Process", href: "#apply" },
+    { name: "Application Process", href: "/apply" },
     { name: "FAQs", href: "#faq" },
     { name: "Contact Us", href: "#contact" },
   ],
   legal: [
-    { name: "Privacy Policy", href: "#privacy" },
-    { name: "Terms of Service", href: "#terms" },
-    { name: "Cookie Policy", href: "#cookies" },
+    { name: "Privacy Policy", href: "/privacy" },
+    { name: "Terms of Service", href: "/terms" },
+    { name: "Cookie Policy", href: "/cookies" },
   ],
 }
 

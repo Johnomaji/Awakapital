@@ -36,8 +36,7 @@ export function HeroSection() {
             className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed animate-slide-up"
             style={{ animationDelay: '0.1s' }}
           >
-            We invest in companies that solve for non-consumption, plug infrastructural 
-            gaps and democratise prosperity in Africa.
+            $5K-$100K at the inflection points of Africa's markets. Pre-seed to Series A.
           </p>
 
           {/* CTA Buttons */}
