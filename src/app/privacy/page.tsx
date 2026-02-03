@@ -182,8 +182,8 @@ export default function PrivacyPolicyPage() {
               </p>
               <div className="mt-4 p-6 bg-card border border-border rounded-lg">
                 <p className="text-foreground mb-2"><strong>Email:</strong> <a href="mailto:privacy@awakapital.com" className="text-accent hover:underline">privacy@awakapital.com</a></p>
-                <p className="text-foreground mb-2"><strong>Address:</strong> Awakapital, Lagos, Nigeria</p>
-                <p className="text-foreground"><strong>Website:</strong> <a href="https://awakapital.com" className="text-accent hover:underline">awakapital.com</a></p>
+                <p className="text-foreground mb-2"><strong>Address:</strong> 28, Aminu Kano Crescent, Wuse 2, Abuja</p>
+                <p className="text-foreground"><strong>Website:</strong> <a href="https://awakapital.vc" className="text-accent hover:underline">awakapital.vc</a></p>
               </div>
             </section>
           </div>

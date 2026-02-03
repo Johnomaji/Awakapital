@@ -14,7 +14,7 @@ const knowledgeBase = {
   
   portfolio: "Our portfolio includes leading African companies like Paystack (acquired by Stripe), PiggyVest, Moni, Fluna, Brass, Steward, and many others across fintech, health tech, logistics, and more.",
   
-  contact: "You can reach us at hello@awakapital.com or visit our office in Lagos, Nigeria. We respond to all inquiries within 24 hours.",
+  contact: "You can reach us at hello@awakapital.com or visit our office in 28, Aminu Kano Crescent, Wuse 2, Abuja, Nigeria. We respond to all inquiries within 24 hours.",
   
   funding: "If you're a founder looking for funding, you can submit your pitch deck through our contact form or email us directly. We review all applications and respond within 48 hours.",
   

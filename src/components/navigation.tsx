@@ -13,6 +13,7 @@ const navItems = [
   { name: "Portfolio", href: "#portfolio" },
   { name: "Stories", href: "#stories" },
   { name: "Contact", href: "#contact" },
+  { name: "Team", href: "/team" },
 ]
 
 export function Navigation() {
@@ -97,7 +98,7 @@ export function Navigation() {
 
         {/* Mobile Menu */}
         <div
-          className={`md:hidden transition-all duration-300 overflow-hidden ${
+          className={`md:hidden transition-all duration-300 overflow-hidden backdrop-blur-lg ${
             isMobileMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
           }`}
         >

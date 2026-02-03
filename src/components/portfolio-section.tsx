@@ -2,19 +2,21 @@
 
 import * as React from "react"
 import { ExternalLink } from "lucide-react"
+import { hr } from "date-fns/locale"
+import Link from "next/link"
 
 // Portfolio companies (using placeholder logos - you'll replace with actual logos)
 const portfolioCompanies = [
-  { name: "Steward", industry: "Health Tech" },
-  { name: "Moni", industry: "Fintech" },
-  { name: "Fluna", industry: "Logistics" },
-  { name: "Brass", industry: "Banking" },
-  { name: "Paystack", industry: "Payments" },
-  { name: "Wealth8", industry: "Investment" },
-  { name: "Earnipay", industry: "HR Tech" },
-  { name: "Med G", industry: "Med Tech" },
-  { name: "Engage", industry: "Marketing" },
-  { name: "SunFi", industry: "Energy" },
+  { name: "Royal Laundry", industry: "Robotics", href: "https://royallaundry.co" },
+  // { name: "Learn Flow", industry: "Fintech" },
+  // { name: "Fluna", industry: "Logistics" },
+  // { name: "Brass", industry: "Banking" },
+  // { name: "Paystack", industry: "Payments" },
+  // { name: "Wealth8", industry: "Investment" },
+  // { name: "Earnipay", industry: "HR Tech" },
+  // { name: "Med G", industry: "Med Tech" },
+  // { name: "Engage", industry: "Marketing" },
+  // { name: "SunFi", industry: "Energy" },
   // { name: "Quobbly", industry: "Education" },
   // { name: "OmniRetail", industry: "Retail" },
   // { name: "Bridgecard", industry: "Fintech" },
@@ -43,19 +45,22 @@ export function PortfolioSection() {
         </div>
 
         {/* Portfolio Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-12">
+        {/* <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-12"> */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-12 place-items-center">
           {portfolioCompanies.map((company, index) => (
-            <div
+            <Link 
+            href={company.href} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            
               key={company.name}
-              className="group relative bg-card border border-border rounded-xl p-6 hover:border-accent/50 hover:shadow-xl transition-all duration-300 cursor-pointer animate-scale-in"
+              className="col-span-full max-w-sm w-full group relative bg-card border border-border rounded-xl p-6 hover:border-accent/50 hover:shadow-xl transition-all duration-300 cursor-pointer animate-scale-in mx-auto"
               style={{ animationDelay: `${index * 0.05}s` }}
             >
               {/* Company Logo Placeholder */}
               <div className="aspect-square flex items-center justify-center mb-4">
                 <div className="w-full h-full bg-linear-to-br from-primary/10 to-accent/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <span className="text-2xl font-bold text-primary group-hover:text-accent transition-colors">
-                    {company.name.charAt(0)}
-                  </span>
+                  <img src="/Royal.png" alt="royal logo" />
                 </div>
               </div>
 
@@ -74,7 +79,7 @@ export function PortfolioSection() {
 
               {/* Glow Effect on Hover */}
               <div className="absolute -inset-0.5 bg-accent/20 rounded-xl opacity-0 group-hover:opacity-100 blur transition-opacity duration-300 -z-10" />
-            </div>
+            </Link>
           ))}
         </div>
 

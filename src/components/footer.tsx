@@ -31,7 +31,7 @@ const footerLinks = {
 }
 
 const socialLinks = [
-  { name: "LinkedIn", icon: Linkedin, href: "#", color: "hover:text-[#0A66C2]" },
+  { name: "LinkedIn", icon: Linkedin, href: "https://www.linkedin.com/company/awakapital/", color: "hover:text-[#0A66C2]" },
   { name: "Twitter", icon: Twitter, href: "#", color: "hover:text-[#1DA1F2]" },
   { name: "Facebook", icon: Facebook, href: "#", color: "hover:text-[#1877F2]" },
   { name: "Instagram", icon: Instagram, href: "#", color: "hover:text-[#E4405F]" },
