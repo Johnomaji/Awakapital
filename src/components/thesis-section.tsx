@@ -56,7 +56,7 @@ export function ThesisSection() {
               {/* Stats Row */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-6 border-t border-border">
                 <div>
-                  <div className="text-3xl font-bold text-primary">$18M+</div>
+                  <div className="text-3xl font-bold text-primary">$100k+</div>
                   <div className="text-sm text-muted-foreground mt-1">Deployed in Capital</div>
                 </div>
                 <div>

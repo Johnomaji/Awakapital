@@ -53,6 +53,8 @@ export function HeroSection() {
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" size={20} />
             </Button>
             </Link>
+
+           <Link href="#portfolio">
             <Button
               size="lg"
               variant="outline"
@@ -60,6 +62,7 @@ export function HeroSection() {
             >
               View Portfolio
             </Button>
+            </Link>
           </div>
 
           {/* Stats Preview */}
@@ -68,7 +71,7 @@ export function HeroSection() {
             style={{ animationDelay: '0.3s' }}
           >
             {[
-              { value: "$18M+", label: "Deployed Capital" },
+              { value: "$100k+", label: "Deployed Capital" },
               { value: "6+", label: "Countries" },
               { value: "75+", label: "Companies" },
               { value: "140+", label: "Founders" },

@@ -2,6 +2,9 @@
 
 import * as React from "react"
 import { Linkedin, Twitter, ExternalLink } from "lucide-react"
+import Link from "next/link"
+
+// Founder Data
 
 const founders = [
   {
@@ -10,8 +13,8 @@ const founders = [
     role: "Founder & General Partner",
     image: "farida.jpg", // Replace with actual image
     bio: "Leading African venture capital with a focus on sustainable growth and infrastructure development.",
-    linkedin: "#",
-    twitter: "#",
+    linkedin: "https://www.linkedin.com/in/farida-nasir-789984162?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    twitter: "https://x.com/FaridaTahir10",
   },
   {
     name: "Emmanuel Angbula Adakwu",
@@ -19,7 +22,7 @@ const founders = [
     role: "Co-Founder & CEO",
     image: "emmaawakapital.jpeg",
     bio: "Building the future of digital lending in Africa with innovative fintech solutions.",
-    linkedin: "#",
+    linkedin: "https://www.linkedin.com/in/emmanuel-angbula-adakwu-702850142?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
     twitter: "#",
   },
   // {
@@ -131,10 +134,12 @@ export function FoundersSection() {
 
         {/* View All Founders */}
         <div className="text-center mt-12">
+          <Link href="/team">
           <button className="inline-flex items-center gap-2 px-8 py-4 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg hover:shadow-lg transition-all duration-300 group">
             Meet All Our Founders
             <ExternalLink className="group-hover:translate-x-1 transition-transform duration-300" size={18} />
           </button>
+          </Link>
         </div>
       </div>
     </section>
