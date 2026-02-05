@@ -46,7 +46,7 @@ const knowledgeBase = {
   },
   
   contact: {
-    email: "Reach us at hello@awakapital.vc. We respond to all inquiries within 24 hours.",
+    email: "Reach us at founders@awakapital.vc. We respond to all inquiries within 24 hours.",
     office: "Visit us at 28, Aminu Kano Crescent, Wuse 2, Abuja, Nigeria.",
     response: "For funding applications, we review and respond within 48 hours. For general inquiries, expect a response within 24 hours.",
     application: "The fastest way to get funded is to submit your application at awakapital.vc/apply. Include your deck, traction metrics, and why now is the right time for your solution.",

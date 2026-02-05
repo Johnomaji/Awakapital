@@ -71,7 +71,7 @@ export const ApplicationRejectedEmail = ({
         </Text>
         
         <Text style={footerSmall}>
-          Questions or feedback? We're happy to provide brief insights. Email us at hello@venturesplatform.com
+          Questions or feedback? We're happy to provide brief insights. Email us at founders@awakapital.vc
         </Text>
       </Container>
     </Body>

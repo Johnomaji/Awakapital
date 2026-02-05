@@ -285,7 +285,7 @@ export default function CookiePolicyPage() {
                 If you have questions about our use of cookies, please contact us:
               </p>
               <div className="mt-4 p-6 bg-card border border-border rounded-lg">
-                <p className="text-foreground mb-2"><strong>Email:</strong> <a href="mailto:privacy@awakapital.com" className="text-accent hover:underline">privacy@awakapital.com</a></p>
+                <p className="text-foreground mb-2"><strong>Email:</strong> <a href="mailto:founders@awakapital.vc" className="text-accent hover:underline">founders@awakapital.vc</a></p>
                 <p className="text-foreground mb-2"><strong>Address:</strong> 28, Aminu Kano Crescent, Wuse 2, Abuja</p>
                 <p className="text-foreground"><strong>Website:</strong> <a href="https://awakapital.vc" className="text-accent hover:underline">awakapital.vc</a></p>
               </div>

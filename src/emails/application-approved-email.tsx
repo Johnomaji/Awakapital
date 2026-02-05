@@ -78,7 +78,7 @@ export const ApplicationApprovedEmail = ({
         </Text>
         
         <Text style={footerSmall}>
-          Questions? Contact us at hello@venturesplatform.com
+          Questions? Contact us at founders@awakapital.vc
         </Text>
       </Container>
     </Body>

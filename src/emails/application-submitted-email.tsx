@@ -67,7 +67,7 @@ export const ApplicationSubmittedEmail = ({
         </Text>
         
         <Text style={footerSmall}>
-          Questions? Reply to this email or contact hello@venturesplatform.com
+          Questions? Reply to this email or contact founders@awakapital.vc
         </Text>
       </Container>
     </Body>

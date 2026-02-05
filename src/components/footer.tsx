@@ -70,8 +70,8 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Mail size={16} className="text-accent" />
-                <a href="mailto:hello@awakapital.com" className="hover:text-accent transition-colors">
-                  hello@awakapital.com
+                <a href="mailto:founders@awakapital.vc" className="hover:text-accent transition-colors">
+                  founders@awakapital.vc
                 </a>
               </div>
               <div className="flex items-center gap-3 text-sm text-muted-foreground">

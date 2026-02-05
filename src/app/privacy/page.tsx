@@ -133,7 +133,7 @@ export default function PrivacyPolicyPage() {
                 <li><strong>Withdraw Consent:</strong> Withdraw consent at any time</li>
               </ul>
               <p className="text-muted-foreground leading-relaxed mt-4">
-                To exercise these rights, contact us at <a href="mailto:privacy@awakapital.com" className="text-accent hover:underline">privacy@awakapital.com</a>.
+                To exercise these rights, contact us at <a href="mailto:founders@awakapital.vc" className="text-accent hover:underline">founders@awakapital.vc</a>.
               </p>
             </section>
 
@@ -181,7 +181,7 @@ export default function PrivacyPolicyPage() {
                 If you have questions about this privacy policy or our data practices, please contact us:
               </p>
               <div className="mt-4 p-6 bg-card border border-border rounded-lg">
-                <p className="text-foreground mb-2"><strong>Email:</strong> <a href="mailto:privacy@awakapital.com" className="text-accent hover:underline">privacy@awakapital.com</a></p>
+                <p className="text-foreground mb-2"><strong>Email:</strong> <a href="mailto:founders@awakapital.vc" className="text-accent hover:underline">founders@awakapital.vc</a></p>
                 <p className="text-foreground mb-2"><strong>Address:</strong> 28, Aminu Kano Crescent, Wuse 2, Abuja</p>
                 <p className="text-foreground"><strong>Website:</strong> <a href="https://awakapital.vc" className="text-accent hover:underline">awakapital.vc</a></p>
               </div>

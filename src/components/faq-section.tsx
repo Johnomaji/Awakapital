@@ -118,7 +118,7 @@ export function FAQSection() {
 
         {/* Still have questions? */}
         <div className="max-w-4xl mx-auto mt-16 text-center">
-          <div className="bg-gradient-to-r from-primary to-secondary rounded-2xl p-8 text-primary-foreground">
+          <div className="bg-linear-to-r from-primary to-secondary rounded-2xl p-8 text-primary-foreground">
             <h3 className="text-2xl font-display font-bold mb-4">
               Still have questions?
             </h3>
@@ -127,7 +127,7 @@ export function FAQSection() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="mailto:hello@venturesplatform.com"
+                href="mailto:founders@awakapital.vc"
                 className="inline-flex items-center justify-center px-6 py-3 bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-lg transition-all"
               >
                 Email Us

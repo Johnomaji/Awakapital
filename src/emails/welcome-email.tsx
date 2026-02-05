@@ -56,7 +56,7 @@ export const WelcomeEmail = ({ userName, loginUrl }: WelcomeEmailProps) => (
         </Text>
         
         <Text style={footerSmall}>
-          Questions? Reply to this email or contact us at hello@venturesplatform.com
+          Questions? Reply to this email or contact us at founders@awakapital.vc
         </Text>
       </Container>
     </Body>

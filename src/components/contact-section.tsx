@@ -60,8 +60,8 @@ export function ContactSection() {
                   <div className="space-y-1">
                     <h3 className="font-semibold text-foreground">Email Us</h3>
                     <p className="text-sm text-muted-foreground">Our team will respond within 24 hours</p>
-                    <a href="mailto:hello@awakapital.com" className="text-sm text-accent hover:underline font-medium">
-                      hello@awakapital.com
+                    <a href="mailto:founders@awakapital.vc" className="text-sm text-accent hover:underline font-medium">
+                      founders@awakapital.vc
                     </a>
                   </div>
                 </div>

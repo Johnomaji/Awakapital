@@ -539,8 +539,8 @@ export default function ImprovedApplicationPage() {
 
                   <p className="text-xs text-center text-muted-foreground">
                     We review all applications and respond within 48 hours. For urgent inquiries, email{" "}
-                    <a href="mailto:hello@venturesplatform.com" className="text-accent hover:underline">
-                      hello@venturesplatform.com
+                    <a href="mailto:founders@awakapital.vc" className="text-accent hover:underline">
+                      founders@awakapital.vc
                     </a>
                   </p>
                 </div>

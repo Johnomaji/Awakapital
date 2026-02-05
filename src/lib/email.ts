@@ -8,7 +8,7 @@ import { AdminNotificationEmail } from '@/emails/admin-notification-email'
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev'
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@venturesplatform.com'
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'founders@awakapital.vc'
 const BASE_URL = process.env.NEXTAUTH_URL || 'http://localhost:3000'
 
 export async function sendWelcomeEmail(userName: string, userEmail: string) {
