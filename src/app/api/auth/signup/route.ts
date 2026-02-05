@@ -43,15 +43,6 @@ export async function POST(request: Request) {
     }
     })
 
-    return NextResponse.json({
-      success: true,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      }
-    })
   } catch (error) {
     return NextResponse.json(
       { error: 'Failed to create user' },

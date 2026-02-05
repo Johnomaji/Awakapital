@@ -36,7 +36,7 @@ export const blogArticles: BlogArticle[] = [
     content: `
 # Introduction
 
-The African tech ecosystem is experiencing unprecedented growth, driven by visionary founders who are building solutions to the continent's most pressing challenges. At Ventures Platform, we're proud to support 11 leading African tech CEOs who are not just building companies, but reshaping entire industries.
+The African tech ecosystem is experiencing unprecedented growth, driven by visionary founders who are building solutions to the continent's most pressing challenges. At Awakapital, we're proud to support 11 leading African tech CEOs who are not just building companies, but reshaping entire industries.
 
 ## The Power of Strategic Capital
 
