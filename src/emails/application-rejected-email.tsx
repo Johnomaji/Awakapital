@@ -67,7 +67,7 @@ export const ApplicationRejectedEmail = ({
         
         <Text style={footer}>
           Wishing you the best in your journey,<br/>
-          The Ventures Platform Team
+          The Awakapital Team
         </Text>
         
         <Text style={footerSmall}>

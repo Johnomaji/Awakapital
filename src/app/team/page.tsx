@@ -9,7 +9,7 @@ const teamMembers = [
     role: "Founder & General Partner",
     department: "Leadership",
     image: "/farida.jpg",
-    bio: "Farida founded Ventures Platform to back Africa's most innovative founders. With over 15 years of experience in venture capital and technology, she leads our investment strategy across the continent.",
+    bio: "Farida founded Awakapital to back Africa's most innovative founders. With over 15 years of experience in venture capital and technology, she leads our investment strategy across the continent.",
     linkedin: "https://www.linkedin.com/in/farida-nasir-789984162?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
     twitter: "https://x.com/FaridaTahir10",
     email: "phareedahnasir8@gmail.com",

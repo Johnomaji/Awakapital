@@ -17,7 +17,7 @@ export async function sendWelcomeEmail(userName: string, userEmail: string) {
     await resend.emails.send({
       from: FROM_EMAIL,
       to: userEmail,
-      subject: 'Welcome to Ventures Platform! 🎉',
+      subject: 'Welcome to Awakapital! 🎉',
       react: WelcomeEmail({
         userName,
         loginUrl: `${BASE_URL}/login`,

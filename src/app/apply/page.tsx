@@ -524,7 +524,7 @@ export default function ImprovedApplicationPage() {
                       className="w-5 h-5 mt-1 rounded border-border"
                     />
                     <p className="text-sm text-muted-foreground">
-                      I confirm that the information provided is accurate and I agree to be contacted by Ventures Platform regarding this application.
+                      I confirm that the information provided is accurate and I agree to be contacted by Awakapital regarding this application.
                     </p>
                   </div>
 

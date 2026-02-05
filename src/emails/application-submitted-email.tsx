@@ -63,7 +63,7 @@ export const ApplicationSubmittedEmail = ({
         
         <Text style={footer}>
           Best regards,<br/>
-          The Ventures Platform Team
+          The Awakapital Team
         </Text>
         
         <Text style={footerSmall}>

@@ -5,7 +5,7 @@ import { ChevronDown } from "lucide-react"
 
 const faqs = [
   {
-    question: "What types of companies does Ventures Platform invest in?",
+    question: "What types of companies does Awakapital invest in?",
     answer: "We invest in early-stage African companies (Pre-Seed to Series A) that solve for non-consumption, plug infrastructural gaps, and democratize prosperity. Our focus areas include fintech, health tech, logistics, e-commerce, education, and agriculture.",
   },
   {
@@ -76,7 +76,7 @@ export function FAQSection() {
             <span className="text-gradient">Questions</span>
           </h2>
           <p className="text-lg text-muted-foreground">
-            Everything you need to know about applying for funding and working with Ventures Platform
+            Everything you need to know about applying for funding and working with Awakapital
           </p>
         </div>
 

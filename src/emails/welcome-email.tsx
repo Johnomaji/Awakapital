@@ -18,15 +18,15 @@ interface WelcomeEmailProps {
 export const WelcomeEmail = ({ userName, loginUrl }: WelcomeEmailProps) => (
   <Html>
     <Head />
-    <Preview>Welcome to Ventures Platform - Start your funding journey</Preview>
+    <Preview>Welcome to Awakapital - Start your funding journey</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>Welcome to Ventures Platform! 🎉</Heading>
+        <Heading style={h1}>Welcome to Awakapital! 🎉</Heading>
         
         <Text style={text}>Hi {userName},</Text>
         
         <Text style={text}>
-          Thanks for creating an account with Ventures Platform. We're excited to have you join our community of innovative African founders.
+          Thanks for creating an account with Awakapital. We're excited to have you join our community of innovative African founders.
         </Text>
         
         <Section style={buttonContainer}>
@@ -52,7 +52,7 @@ export const WelcomeEmail = ({ userName, loginUrl }: WelcomeEmailProps) => (
         
         <Text style={footer}>
           Best regards,<br/>
-          The Ventures Platform Team
+          The Awakapital Team
         </Text>
         
         <Text style={footerSmall}>

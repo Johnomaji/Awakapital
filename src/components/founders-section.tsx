@@ -9,7 +9,7 @@ import Link from "next/link"
 const founders = [
   {
     name: "Farida Abubakar Nasir",
-    company: "Ventures Platform",
+    company: "Awakapital",
     role: "Founder & General Partner",
     image: "farida.jpg", // Replace with actual image
     bio: "Leading African venture capital with a focus on sustainable growth and infrastructure development.",
@@ -18,7 +18,7 @@ const founders = [
   },
   {
     name: "Emmanuel Angbula Adakwu",
-    company: "Moni",
+    company: "Awakapital",
     role: "Co-Founder & CEO",
     image: "emmaawakapital.jpeg",
     bio: "Building the future of digital lending in Africa with innovative fintech solutions.",
