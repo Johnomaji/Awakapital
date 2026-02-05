@@ -86,18 +86,18 @@ export function FoundersSection() {
                 {/* Overlay on Hover */}
                 <div className="absolute inset-0 bg-linear-to-t from-card via-card/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 
-                {/* Social Links (appear on hover) */}
-                <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                {/* Social Links (always visible — hover effects removed) */}
+                <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-3">
                   <a
                     href={founder.linkedin}
-                    className="w-10 h-10 bg-accent/90 hover:bg-accent rounded-full flex items-center justify-center text-accent-foreground transition-all hover:scale-110"
+                    className="w-10 h-10 bg-accent/90 rounded-full flex items-center justify-center text-accent-foreground"
                     aria-label="LinkedIn"
                   >
                     <Linkedin size={18} />
                   </a>
                   <a
                     href={founder.twitter}
-                    className="w-10 h-10 bg-accent/90 hover:bg-accent rounded-full flex items-center justify-center text-accent-foreground transition-all hover:scale-110"
+                    className="w-10 h-10 bg-accent/90 rounded-full flex items-center justify-center text-accent-foreground"
                     aria-label="Twitter"
                   >
                     <Twitter size={18} />

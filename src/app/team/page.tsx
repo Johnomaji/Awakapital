@@ -12,7 +12,7 @@ const teamMembers = [
     bio: "Farida founded Awakapital to back Africa's most innovative founders. With over 15 years of experience in venture capital and technology, she leads our investment strategy across the continent.",
     linkedin: "https://www.linkedin.com/in/farida-nasir-789984162?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
     twitter: "https://x.com/FaridaTahir10",
-    email: "phareedahnasir8@gmail.com",
+    email: "farida@awakapital.vc",
     expertise: ["Venture Capital", "Strategy", "African Markets"],
   },
   {
@@ -23,7 +23,7 @@ const teamMembers = [
     bio: "Emmanuel leads our fintech and infrastructure investments. He has deep expertise in scaling technology companies across emerging markets.",
     linkedin: "https://www.linkedin.com/in/emmanuel-angbula-adakwu-702850142?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
     twitter: "#",
-    email: "adakwuangbula@gmail.com",
+    email: "emmanuel@awakapital.vc",
     expertise: ["Fintech", "Infrastructure", "Due Diligence"],
   },
   // {
@@ -183,12 +183,13 @@ export default function TeamPage() {
                     </div>
 
                     {/* Overlay on Hover */}
-                    <div className="absolute inset-0 bg-linear-to-t from-card via-card/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute inset-0 bg-linear-to-t from-card via-card/80 to-transparent">
+
                       {/* Social Links */}
                       <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-3">
                         <a
                           href={member.linkedin}
-                          className="w-10 h-10 bg-accent hover:bg-accent/90 rounded-full flex items-center justify-center text-accent-foreground transition-all hover:scale-110"
+                          className="w-10 h-10 bg-accent  rounded-full flex items-center justify-center text-accent-foreground "
                           aria-label="LinkedIn"
                         >
                           <Linkedin size={18} />
@@ -202,7 +203,7 @@ export default function TeamPage() {
                         </a> */}
                         <a
                           href={`mailto:${member.email}`}
-                          className="w-10 h-10 bg-accent hover:bg-accent/90 rounded-full flex items-center justify-center text-accent-foreground transition-all hover:scale-110"
+                          className="w-10 h-10 bg-accent  rounded-full flex items-center justify-center text-accent-foreground "
                           aria-label="Email"
                         >
                           <Mail size={18} />
