@@ -83,47 +83,84 @@ export default function AdminDashboard() {
   }
 
   // Handle status change
-  const handleStatusChange = async (appId: string, newStatus: Application["status"]) => {
-    try {
-      const token = localStorage.getItem('vp_token')
+  // const handleStatusChange = async (appId: string, newStatus: Application["status"]) => {
+  //   try {
+  //     const token = localStorage.getItem('vp_token')
       
-      const response = await fetch(`/api/applications/${appId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          status: newStatus,
-          notes: '',
-        }),
-      })
+  //     const response = await fetch(`/api/applications/${appId}`, {
+  //       method: 'PATCH',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': `Bearer ${token}`,
+  //       },
+  //       body: JSON.stringify({
+  //         status: newStatus,
+  //         notes: '',
+  //       }),
+  //     })
 
-      const data = await response.json()
+  //     const data = await response.json()
 
-      if (data.success) {
-        // Update local state - handle both id and _id
-        const updatedApps = applications.map(app => {
-          const currentId = (app as any)._id?.toString() || app.id
-          if (currentId === appId) {
-            return {
-              ...app,
-              status: newStatus,
-              reviewedAt: new Date().toISOString(),
-              reviewedBy: user.name,
-            }
-          }
-          return app
-        })
-        setApplications(updatedApps)
-      } else {
-        alert('Failed to update status: ' + (data.error || 'Unknown error'))
-      }
-    } catch (error) {
-      console.error('Failed to update application:', error)
-      alert('Error updating application. Please try again.')
+  //     if (data.success) {
+  //       // Update local state - handle both id and _id
+  //       const updatedApps = applications.map(app => {
+  //         const currentId = (app as any)._id?.toString() || app.id
+  //         if (currentId === appId) {
+  //           return {
+  //             ...app,
+  //             status: newStatus,
+  //             reviewedAt: new Date().toISOString(),
+  //             reviewedBy: user.name,
+  //           }
+  //         }
+  //         return app
+  //       })
+  //       setApplications(updatedApps)
+  //     } else {
+  //       alert('Failed to update status: ' + (data.error || 'Unknown error'))
+  //     }
+  //   } catch (error) {
+  //     console.error('Failed to update application:', error)
+  //     alert('Error updating application. Please try again.')
+  //   }
+  // }
+
+  const handleStatusChange = async (appId: string, newStatus: string) => {
+  console.log('🔵 Attempting to update:', appId, 'to', newStatus)
+  
+  try {
+    const token = localStorage.getItem('vp_token')
+    console.log('🔵 Token exists:', !!token)
+    
+    const url = `/api/applications/${appId}`
+    console.log('🔵 Calling URL:', url)
+    
+    const response = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({ status: newStatus, notes: '' }),
+    })
+    
+    console.log('🔵 Response status:', response.status)
+    
+    const data = await response.json()
+    console.log('🔵 Response data:', data)
+    
+    if (data.success) {
+      console.log('✅ Update successful!')
+      // Update state...
+    } else {
+      console.error('❌ Update failed:', data.error)
+      alert('Failed: ' + data.error)
     }
+  } catch (error) {
+    console.error('❌ Exception:', error)
+    alert('Error: ' + error)
   }
+}
 
   // Handle refresh
   const handleRefresh = async () => {
