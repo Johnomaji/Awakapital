@@ -9,7 +9,7 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 
 const FROM_EMAIL = process.env.FROM_EMAIL || 'onboarding@resend.dev'
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'founders@awakapital.vc'
-const BASE_URL = process.env.NEXTAUTH_URL || 'https://vc.awakapital.vc'
+const BASE_URL = process.env.NEXTAUTH_URL || 'https://awakapital.vc'
 
 export async function sendWelcomeEmail(userName: string, userEmail: string) {
   const { data, error } = await resend.emails.send({
