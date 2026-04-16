@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation"
 import { Lock, Eye, EyeOff, CheckCircle, AlertCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-export default function ResetPasswordPage() {
+function ResetPasswordForm() {
   const searchParams = useSearchParams()
   const token = searchParams.get("token") || ""
 
@@ -143,5 +143,17 @@ export default function ResetPasswordPage() {
         )}
       </div>
     </div>
+  )
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <React.Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin w-8 h-8 border-4 border-accent border-t-transparent rounded-full" />
+      </div>
+    }>
+      <ResetPasswordForm />
+    </React.Suspense>
   )
 }
