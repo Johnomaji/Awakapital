@@ -83,6 +83,8 @@ export default function ImprovedApplicationPage() {
         founderName: formData.founderName,
         email: formData.email,
         phone: formData.phone || "",
+        website: formData.website || "",
+        country: formData.country || "",
         industry: formData.sector,
         stage: formData.stage,
         fundingAmount: formData.fundingAmount || "Not specified",

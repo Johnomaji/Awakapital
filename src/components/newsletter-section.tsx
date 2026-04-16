@@ -7,15 +7,32 @@ import { Button } from "./ui/button"
 export function NewsletterSection() {
   const [email, setEmail] = React.useState("")
   const [isSubmitted, setIsSubmitted] = React.useState(false)
+  const [isSubmitting, setIsSubmitting] = React.useState(false)
+  const [message, setMessage] = React.useState("")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (email) {
-      setIsSubmitted(true)
-      setTimeout(() => {
-        setIsSubmitted(false)
+    if (!email) return
+    setIsSubmitting(true)
+    setMessage("")
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      })
+      const data = await res.json()
+      if (data.success) {
+        setIsSubmitted(true)
+        setMessage(data.alreadySubscribed ? "You're already subscribed!" : "")
         setEmail("")
-      }, 5000)
+      } else {
+        setMessage(data.error || "Something went wrong. Please try again.")
+      }
+    } catch {
+      setMessage("Network error. Please try again.")
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -77,9 +94,10 @@ export function NewsletterSection() {
                 <Button
                   type="submit"
                   size="lg"
+                  disabled={isSubmitting}
                   className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold px-8 whitespace-nowrap hover:glow-accent transition-all duration-300"
                 >
-                  Subscribe Now
+                  {isSubmitting ? "Subscribing..." : "Subscribe Now"}
                 </Button>
               </div>
               

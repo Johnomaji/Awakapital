@@ -23,6 +23,8 @@ export interface Application {
   founderName: string
   email: string
   phone: string
+  website?: string
+  country?: string
   industry: string
   stage: string
   fundingAmount: string

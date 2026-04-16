@@ -6,6 +6,8 @@ export interface IApplication {
   founderName: string
   email: string
   phone?: string
+  website?: string
+  country?: string
   industry: string
   stage: string
   fundingAmount: string
@@ -25,6 +27,8 @@ const ApplicationSchema = new Schema<IApplication>({
   founderName: { type: String, required: true },
   email: { type: String, required: true },
   phone: { type: String },
+  website: { type: String },
+  country: { type: String },
   industry: { type: String, required: true },
   stage: { type: String, required: true },
   fundingAmount: { type: String, required: true },

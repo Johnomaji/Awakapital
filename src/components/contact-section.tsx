@@ -13,14 +13,31 @@ export function ContactSection() {
     message: "",
   })
   const [isSubmitted, setIsSubmitted] = React.useState(false)
+  const [isSubmitting, setIsSubmitting] = React.useState(false)
+  const [error, setError] = React.useState("")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitted(true)
-    setTimeout(() => {
-      setIsSubmitted(false)
-      setFormData({ name: "", email: "", company: "", message: "" })
-    }, 5000)
+    setError("")
+    setIsSubmitting(true)
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      })
+      const data = await res.json()
+      if (data.success) {
+        setIsSubmitted(true)
+        setFormData({ name: "", email: "", company: "", message: "" })
+      } else {
+        setError(data.error || "Failed to send. Please try again.")
+      }
+    } catch {
+      setError("Network error. Please try again.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -131,6 +148,9 @@ export function ContactSection() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="bg-card border border-border rounded-2xl p-8 space-y-6">
+                {error && (
+                  <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-500 text-sm">{error}</div>
+                )}
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label htmlFor="name" className="text-sm font-medium text-foreground">
@@ -199,10 +219,11 @@ export function ContactSection() {
                 <Button
                   type="submit"
                   size="lg"
+                  disabled={isSubmitting}
                   className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold hover:glow-accent transition-all duration-300"
                 >
-                  Send Message
-                  <Send size={18} className="ml-2" />
+                  {isSubmitting ? "Sending..." : "Send Message"}
+                  {!isSubmitting && <Send size={18} className="ml-2" />}
                 </Button>
 
                 <p className="text-xs text-muted-foreground text-center">

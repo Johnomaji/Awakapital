@@ -104,6 +104,46 @@ export async function sendApplicationRejectedEmail(
   console.log('✅ Application rejected email sent to:', founderEmail, 'id:', data?.id)
 }
 
+export async function sendContactEmail(data: {
+  name: string
+  email: string
+  company: string
+  message: string
+}) {
+  const { data: result, error } = await resend.emails.send({
+    from: FROM_EMAIL,
+    to: ADMIN_EMAIL,
+    subject: `📩 New Contact Message from ${data.name}`,
+    html: `
+      <h2>New Contact Form Submission</h2>
+      <p><strong>Name:</strong> ${data.name}</p>
+      <p><strong>Email:</strong> ${data.email}</p>
+      ${data.company ? `<p><strong>Company:</strong> ${data.company}</p>` : ''}
+      <p><strong>Message:</strong></p>
+      <blockquote style="border-left:4px solid #ccc;padding-left:12px;color:#555">${data.message.replace(/\n/g, '<br/>')}</blockquote>
+    `,
+  })
+  if (error) throw new Error(`Contact email failed: ${error.message}`)
+  console.log('✅ Contact email sent, id:', result?.id)
+}
+
+export async function sendPasswordResetEmail(userName: string, userEmail: string, resetUrl: string) {
+  const { data: result, error } = await resend.emails.send({
+    from: FROM_EMAIL,
+    to: userEmail,
+    subject: 'Reset your Awakapital password',
+    html: `
+      <h2>Password Reset Request</h2>
+      <p>Hi ${userName},</p>
+      <p>We received a request to reset your password. Click the link below to set a new password. This link expires in <strong>1 hour</strong>.</p>
+      <p><a href="${resetUrl}" style="background:#7c3aed;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;display:inline-block;margin:16px 0">Reset My Password</a></p>
+      <p>If you didn't request this, you can safely ignore this email.</p>
+    `,
+  })
+  if (error) throw new Error(`Password reset email failed: ${error.message}`)
+  console.log('✅ Password reset email sent to:', userEmail, 'id:', result?.id)
+}
+
 export async function sendAdminNotificationEmail(applicationData: {
   companyName: string
   founderName: string

@@ -20,36 +20,60 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = React.useState<"overview" | "applications" | "users">("overview")
   const [filterStatus, setFilterStatus] = React.useState<string>("all")
   const [isRefreshing, setIsRefreshing] = React.useState(false)
+  const [loadError, setLoadError] = React.useState(false)
   const [selectedApp, setSelectedApp] = React.useState<Application | null>(null)
+  const [notifOpen, setNotifOpen] = React.useState(false)
+  const [adminNotes, setAdminNotes] = React.useState("")
+  const [notesStatus, setNotesStatus] = React.useState<"idle" | "saving" | "saved">("idle")
+
+  const openApp = (app: Application) => {
+    setSelectedApp(app)
+    setAdminNotes(app.notes || "")
+    setNotesStatus("idle")
+  }
+
+  const saveNotes = async () => {
+    if (!selectedApp) return
+    const appId = (selectedApp as any)._id?.toString() || selectedApp.id
+    setNotesStatus("saving")
+    try {
+      const token = localStorage.getItem("vp_token")
+      await fetch(`/api/applications/${appId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ status: selectedApp.status, notes: adminNotes }),
+      })
+      setSelectedApp({ ...selectedApp, notes: adminNotes })
+      setNotesStatus("saved")
+    } catch {
+      setNotesStatus("idle")
+    }
+  }
 
   // Fetch data function
   const fetchData = React.useCallback(async () => {
+    setLoadError(false)
     try {
       const token = localStorage.getItem('vp_token')
-      
-      if (!token) {
-        console.error('No token found')
-        return
-      }
+      if (!token) { setLoadError(true); setIsRefreshing(false); return }
 
       const appsResponse = await fetch('/api/applications', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
+        headers: { 'Authorization': `Bearer ${token}` },
       })
 
+      if (!appsResponse.ok) throw new Error('Failed')
       const appsData = await appsResponse.json()
 
       if (appsData.success && appsData.applications) {
         setApplications(appsData.applications)
+      } else {
+        setLoadError(true)
       }
 
       const usersStr = localStorage.getItem("vp_users")
-      if (usersStr) {
-        setUsers(JSON.parse(usersStr))
-      }
-    } catch (error) {
-      console.error('Failed to fetch data:', error)
+      if (usersStr) setUsers(JSON.parse(usersStr))
+    } catch {
+      setLoadError(true)
     } finally {
       setIsRefreshing(false)
     }
@@ -234,12 +258,48 @@ export default function AdminDashboard() {
             </Link>
 
             <div className="flex items-center gap-4">
-              <button className="relative p-2 hover:bg-accent/10 rounded-lg transition-colors">
-                <Bell size={20} className="text-muted-foreground" />
-                {stats.pending > 0 && (
-                  <span className="absolute top-1 right-1 w-2 h-2 bg-accent rounded-full" />
+              <div className="relative">
+                <button onClick={() => setNotifOpen(o => !o)} className="relative p-2 hover:bg-accent/10 rounded-lg transition-colors">
+                  <Bell size={20} className="text-muted-foreground" />
+                  {stats.pending > 0 && (
+                    <span className="absolute top-1 right-1 w-4 h-4 bg-accent rounded-full text-[10px] text-accent-foreground font-bold flex items-center justify-center">
+                      {stats.pending}
+                    </span>
+                  )}
+                </button>
+                {notifOpen && (
+                  <div className="absolute right-0 top-12 w-80 bg-card border border-border rounded-xl shadow-2xl z-50 overflow-hidden">
+                    <div className="flex items-center justify-between px-4 py-3 border-b border-border">
+                      <h3 className="font-semibold text-foreground text-sm">Pending Applications</h3>
+                      <button onClick={() => setNotifOpen(false)} className="text-muted-foreground hover:text-foreground"><X size={16} /></button>
+                    </div>
+                    <div className="max-h-72 overflow-y-auto divide-y divide-border">
+                      {applications.filter(a => a.status === "pending").length === 0 ? (
+                        <p className="px-4 py-6 text-sm text-muted-foreground text-center">No pending applications</p>
+                      ) : (
+                        applications.filter(a => a.status === "pending").map(app => {
+                          const appId = (app as any)._id?.toString() || app.id
+                          return (
+                            <button key={appId} onClick={() => { openApp(app); setNotifOpen(false); setActiveTab("applications") }}
+                              className="w-full text-left px-4 py-3 hover:bg-muted/50 transition-colors">
+                              <p className="text-sm font-medium text-foreground">{app.companyName}</p>
+                              <p className="text-xs text-muted-foreground">{app.founderName} · {app.industry}</p>
+                            </button>
+                          )
+                        })
+                      )}
+                    </div>
+                    {stats.pending > 0 && (
+                      <div className="px-4 py-3 border-t border-border">
+                        <button onClick={() => { setActiveTab("applications"); setFilterStatus("pending"); setNotifOpen(false) }}
+                          className="text-xs text-accent hover:underline font-medium">
+                          View all {stats.pending} pending →
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 )}
-              </button>
+              </div>
               
               <button className="p-2 hover:bg-accent/10 rounded-lg transition-colors">
                 <Settings size={20} className="text-muted-foreground" />
@@ -266,7 +326,7 @@ export default function AdminDashboard() {
         </div>
       </nav>
 
-      <div className="container-custom py-8">
+      <div className="container-custom py-8 pb-24 lg:pb-8">
         <div className="flex gap-8">
           {/* Sidebar */}
           <aside className="hidden lg:block w-64 space-y-2">
@@ -556,6 +616,14 @@ export default function AdminDashboard() {
                 </div>
 
                 {/* Applications Table */}
+                {loadError && (
+                  <div className="bg-destructive/10 border border-destructive/20 rounded-xl p-6 flex flex-col sm:flex-row items-center gap-4 mb-4">
+                    <p className="text-sm text-destructive flex-1">Failed to load applications. Please check your connection.</p>
+                    <button onClick={handleRefresh} className="shrink-0 px-4 py-2 bg-destructive text-destructive-foreground rounded-lg text-sm font-medium hover:bg-destructive/90 transition-colors">
+                      Retry
+                    </button>
+                  </div>
+                )}
                 <div className="space-y-4">
                   {filteredApplications.length === 0 ? (
                     <div className="bg-card border border-border rounded-xl p-12 text-center">
@@ -602,7 +670,7 @@ export default function AdminDashboard() {
                               <Button
                                 size="sm"
                                 variant="outline"
-                                onClick={() => setSelectedApp(app)}
+                                onClick={() => openApp(app)}
                                 className="gap-2"
                               >
                                 <Eye size={16} />
@@ -730,6 +798,31 @@ export default function AdminDashboard() {
           </main>
         </div>
       </div>
+
+      {/* Mobile Bottom Nav */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-card border-t border-border flex">
+        {[
+          { tab: "overview", icon: <LayoutDashboard size={20} />, label: "Overview" },
+          { tab: "applications", icon: <FileText size={20} />, label: "Applications", badge: stats.pending },
+          { tab: "users", icon: <Users size={20} />, label: "Users" },
+        ].map(({ tab, icon, label, badge }: any) => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab as any)}
+            className={`flex-1 flex flex-col items-center justify-center py-3 gap-1 text-xs font-medium transition-colors relative ${
+              activeTab === tab ? "text-accent" : "text-muted-foreground"
+            }`}
+          >
+            {icon}
+            {label}
+            {badge > 0 && (
+              <span className="absolute top-2 right-1/4 w-4 h-4 bg-yellow-500 rounded-full text-[10px] text-white font-bold flex items-center justify-center">
+                {badge}
+              </span>
+            )}
+          </button>
+        ))}
+      </nav>
     </div>
 
     {/* Application Detail Modal */}
@@ -739,15 +832,23 @@ export default function AdminDashboard() {
         onClick={() => setSelectedApp(null)}
       >
         <div
-          className="bg-card border border-border rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl"
+          className="bg-background border border-border rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Modal Header */}
-          <div className="flex items-start justify-between p-6 border-b border-border sticky top-0 bg-card z-10">
+          <div className="flex items-start justify-between px-6 py-5 bg-card rounded-t-2xl border-b border-border flex-shrink-0">
             <div>
               <h2 className="text-2xl font-display font-bold text-foreground">{selectedApp.companyName}</h2>
-              <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border mt-2 ${getStatusColor(selectedApp.status)}`}>
-                {selectedApp.status.toUpperCase()}
+              <div className="flex items-center gap-3 mt-2">
+                <div className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border ${getStatusColor(selectedApp.status)}`}>
+                  {selectedApp.status.toUpperCase()}
+                </div>
+                {selectedApp.industry && (
+                  <span className="text-xs text-muted-foreground">{selectedApp.industry}</span>
+                )}
+                {(selectedApp as any).country && (
+                  <span className="text-xs text-muted-foreground">{(selectedApp as any).country}</span>
+                )}
               </div>
             </div>
             <button
@@ -758,107 +859,177 @@ export default function AdminDashboard() {
             </button>
           </div>
 
-          {/* Modal Body */}
-          <div className="p-6 space-y-6">
-            {/* Founder Info */}
-            <section>
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Founder</h3>
-              <div className="grid sm:grid-cols-2 gap-3">
-                <div className="bg-muted/40 rounded-lg p-3">
-                  <p className="text-xs text-muted-foreground mb-1">Name</p>
-                  <p className="text-sm font-medium text-foreground">{selectedApp.founderName}</p>
-                </div>
-                <div className="bg-muted/40 rounded-lg p-3">
-                  <p className="text-xs text-muted-foreground mb-1">Email</p>
-                  <p className="text-sm font-medium text-foreground break-all">{selectedApp.email}</p>
-                </div>
-                {selectedApp.phone && (
-                  <div className="bg-muted/40 rounded-lg p-3">
-                    <p className="text-xs text-muted-foreground mb-1">Phone</p>
-                    <p className="text-sm font-medium text-foreground">{selectedApp.phone}</p>
-                  </div>
-                )}
-              </div>
-            </section>
+          {/* Scrollable Body */}
+          <div className="overflow-y-auto flex-1 p-6 space-y-5">
 
-            {/* Company Info */}
-            <section>
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Company</h3>
-              <div className="grid sm:grid-cols-2 gap-3">
-                <div className="bg-muted/40 rounded-lg p-3">
-                  <p className="text-xs text-muted-foreground mb-1">Industry</p>
-                  <p className="text-sm font-medium text-foreground">{selectedApp.industry}</p>
+            {/* Section: Founder Information */}
+            <div className="bg-card border border-border rounded-xl overflow-hidden">
+              <div className="px-4 py-3 bg-muted/50 border-b border-border">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Founder Information</h3>
+              </div>
+              <div className="grid sm:grid-cols-2 gap-px bg-border">
+                <div className="bg-card px-4 py-3">
+                  <p className="text-xs text-muted-foreground mb-1">Full Name</p>
+                  <p className="text-sm font-medium text-foreground">{selectedApp.founderName || "—"}</p>
                 </div>
-                <div className="bg-muted/40 rounded-lg p-3">
+                <div className="bg-card px-4 py-3">
+                  <p className="text-xs text-muted-foreground mb-1">Email</p>
+                  <p className="text-sm font-medium text-foreground break-all">{selectedApp.email || "—"}</p>
+                </div>
+                <div className="bg-card px-4 py-3">
+                  <p className="text-xs text-muted-foreground mb-1">Phone</p>
+                  <p className="text-sm font-medium text-foreground">{selectedApp.phone || "—"}</p>
+                </div>
+                <div className="bg-card px-4 py-3">
+                  <p className="text-xs text-muted-foreground mb-1">Country</p>
+                  <p className="text-sm font-medium text-foreground">{(selectedApp as any).country || "—"}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Section: Company Details */}
+            <div className="bg-card border border-border rounded-xl overflow-hidden">
+              <div className="px-4 py-3 bg-muted/50 border-b border-border">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Company Details</h3>
+              </div>
+              <div className="grid sm:grid-cols-2 gap-px bg-border">
+                <div className="bg-card px-4 py-3">
+                  <p className="text-xs text-muted-foreground mb-1">Industry</p>
+                  <p className="text-sm font-medium text-foreground">{selectedApp.industry || "—"}</p>
+                </div>
+                <div className="bg-card px-4 py-3">
                   <p className="text-xs text-muted-foreground mb-1">Stage</p>
                   <p className="text-sm font-medium text-foreground">{selectedApp.stage || "—"}</p>
                 </div>
-                <div className="bg-muted/40 rounded-lg p-3">
+                <div className="bg-card px-4 py-3">
                   <p className="text-xs text-muted-foreground mb-1">Funding Amount</p>
-                  <p className="text-sm font-medium text-foreground">{selectedApp.fundingAmount}</p>
+                  <p className="text-sm font-medium text-foreground">{selectedApp.fundingAmount || "—"}</p>
                 </div>
-                {selectedApp.pitchDeck && (
-                  <div className="bg-muted/40 rounded-lg p-3">
-                    <p className="text-xs text-muted-foreground mb-1">Pitch Deck</p>
+                <div className="bg-card px-4 py-3">
+                  <p className="text-xs text-muted-foreground mb-1">Website / LinkedIn</p>
+                  {(selectedApp as any).website ? (
                     <a
-                      href={selectedApp.pitchDeck}
+                      href={(selectedApp as any).website}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-sm font-medium text-accent flex items-center gap-1 hover:underline"
+                      className="text-sm font-medium text-accent flex items-center gap-1 hover:underline truncate"
                     >
-                      View Deck <ExternalLink size={12} />
+                      {(selectedApp as any).website} <ExternalLink size={11} className="flex-shrink-0" />
                     </a>
-                  </div>
-                )}
-              </div>
-            </section>
-
-            {/* Description */}
-            <section>
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Description</h3>
-              <div className="bg-muted/40 rounded-lg p-4">
-                <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">{selectedApp.description}</p>
-              </div>
-            </section>
-
-            {/* Notes */}
-            {selectedApp.notes && (
-              <section>
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Notes</h3>
-                <div className="bg-muted/40 rounded-lg p-4">
-                  <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">{selectedApp.notes}</p>
+                  ) : (
+                    <p className="text-sm font-medium text-foreground">—</p>
+                  )}
                 </div>
-              </section>
-            )}
+              </div>
+            </div>
 
-            {/* Review Info */}
-            <section>
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Timeline</h3>
-              <div className="grid sm:grid-cols-2 gap-3">
-                <div className="bg-muted/40 rounded-lg p-3">
+            {/* Section: Application Details */}
+            {(() => {
+              const raw = selectedApp.description || ""
+              const labels = ["Why Now", "Traction", "Why You", "Additional Info"]
+              const regex = new RegExp(`(${labels.map(l => l.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')}): ?`, 'g')
+              const parts: { label: string; text: string }[] = []
+              let oneLiner = raw
+              let match: RegExpExecArray | null
+              let firstMatchIndex = -1
+
+              regex.lastIndex = 0
+              match = regex.exec(raw)
+              if (match) {
+                firstMatchIndex = match.index
+                oneLiner = raw.slice(0, firstMatchIndex).trim()
+              }
+
+              regex.lastIndex = 0
+              const allMatches: { label: string; index: number; end: number }[] = []
+              while ((match = regex.exec(raw)) !== null) {
+                allMatches.push({ label: match[1], index: match.index, end: match.index + match[0].length })
+              }
+              allMatches.forEach((m, i) => {
+                const textEnd = i + 1 < allMatches.length ? allMatches[i + 1].index : raw.length
+                parts.push({ label: m.label, text: raw.slice(m.end, textEnd).trim() })
+              })
+
+              const hasParsed = parts.length > 0
+
+              return (
+                <div className="bg-card border border-border rounded-xl overflow-hidden">
+                  <div className="px-4 py-3 bg-muted/50 border-b border-border">
+                    <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Application Details</h3>
+                  </div>
+                  {hasParsed ? (
+                    <div className="divide-y divide-border">
+                      {oneLiner && (
+                        <div className="px-4 py-4">
+                          <p className="text-xs text-muted-foreground mb-2 font-semibold uppercase tracking-wider">One-Liner</p>
+                          <p className="text-sm text-foreground leading-relaxed">{oneLiner}</p>
+                        </div>
+                      )}
+                      {parts.map(({ label, text }) => text && (
+                        <div key={label} className="px-4 py-4">
+                          <p className="text-xs text-muted-foreground mb-2 font-semibold uppercase tracking-wider">{label}</p>
+                          <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">{text}</p>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="px-4 py-4">
+                      <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">{raw || "—"}</p>
+                    </div>
+                  )}
+                </div>
+              )
+            })()}
+
+            {/* Section: Admin Notes (editable) */}
+            <div className="bg-card border border-yellow-500/30 rounded-xl overflow-hidden">
+              <div className="flex items-center justify-between px-4 py-3 bg-yellow-500/10 border-b border-yellow-500/20">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-yellow-600">Admin Notes</h3>
+                {notesStatus === "saved" && <span className="text-xs text-green-500 font-medium">Saved ✓</span>}
+              </div>
+              <div className="px-4 py-4 space-y-3">
+                <textarea
+                  value={adminNotes}
+                  onChange={e => { setAdminNotes(e.target.value); setNotesStatus("idle") }}
+                  rows={4}
+                  placeholder="Add internal notes about this application…"
+                  className="w-full px-3 py-2 text-sm bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent resize-none text-foreground"
+                />
+                <Button size="sm" variant="outline" disabled={notesStatus === "saving"} onClick={saveNotes}>
+                  {notesStatus === "saving" ? "Saving…" : "Save Notes"}
+                </Button>
+              </div>
+            </div>
+
+            {/* Section: Timeline */}
+            <div className="bg-card border border-border rounded-xl overflow-hidden">
+              <div className="px-4 py-3 bg-muted/50 border-b border-border">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Timeline</h3>
+              </div>
+              <div className="grid sm:grid-cols-2 gap-px bg-border">
+                <div className="bg-card px-4 py-3">
                   <p className="text-xs text-muted-foreground mb-1">Submitted</p>
                   <p className="text-sm font-medium text-foreground">
                     {new Date((selectedApp as any).submittedAt || (selectedApp as any).createdAt).toLocaleString()}
                   </p>
                 </div>
-                {selectedApp.reviewedAt && (
-                  <div className="bg-muted/40 rounded-lg p-3">
-                    <p className="text-xs text-muted-foreground mb-1">Reviewed At</p>
-                    <p className="text-sm font-medium text-foreground">{new Date(selectedApp.reviewedAt).toLocaleString()}</p>
-                  </div>
-                )}
-                {selectedApp.reviewedBy && (
-                  <div className="bg-muted/40 rounded-lg p-3">
-                    <p className="text-xs text-muted-foreground mb-1">Reviewed By</p>
-                    <p className="text-sm font-medium text-foreground">{selectedApp.reviewedBy}</p>
-                  </div>
-                )}
+                <div className="bg-card px-4 py-3">
+                  <p className="text-xs text-muted-foreground mb-1">Reviewed At</p>
+                  <p className="text-sm font-medium text-foreground">
+                    {selectedApp.reviewedAt ? new Date(selectedApp.reviewedAt).toLocaleString() : "—"}
+                  </p>
+                </div>
+                <div className="bg-card px-4 py-3">
+                  <p className="text-xs text-muted-foreground mb-1">Reviewed By</p>
+                  <p className="text-sm font-medium text-foreground">{selectedApp.reviewedBy || "—"}</p>
+                </div>
               </div>
-            </section>
+            </div>
+
           </div>
 
           {/* Modal Footer – Actions */}
-          <div className="flex items-center justify-end gap-2 p-6 border-t border-border sticky bottom-0 bg-card">
+          <div className="flex items-center justify-end gap-2 px-6 py-4 bg-card rounded-b-2xl border-t border-border flex-shrink-0">
             {(() => {
               const appId = (selectedApp as any)._id?.toString() || selectedApp.id
               return (

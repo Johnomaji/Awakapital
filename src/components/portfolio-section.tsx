@@ -59,7 +59,7 @@ export function PortfolioSection() {
             >
               {/* Company Logo Placeholder */}
               <div className="aspect-square flex items-center justify-center mb-4">
-                <div className="w-full h-full bg-linear-to-br from-primary/10 to-accent/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <div className="w-full h-full bg-linear-to-br from-primary/10 to-accent/10 rounded-lg flex items-center justify-center transition-colors duration-300 group-hover:from-accent/10 group-hover:to-primary/10">
                   <img src="/Royal.png" alt="royal logo" />
                 </div>
               </div>

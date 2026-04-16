@@ -99,6 +99,8 @@ export async function POST(request: Request) {
       founderName: data.founderName,
       email: data.email,
       phone: data.phone || '',
+      website: data.website || '',
+      country: data.country || '',
       industry: data.industry,
       stage: data.stage,
       fundingAmount: data.fundingAmount || 'Not specified',
