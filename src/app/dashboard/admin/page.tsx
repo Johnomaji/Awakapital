@@ -3,11 +3,11 @@
 import * as React from "react"
 import { useAuth, type Application, type User as UserType } from "@/lib/auth-context"
 import { useRouter } from "next/navigation"
-import { 
-  LayoutDashboard, Users, FileText, TrendingUp, LogOut, 
+import {
+  LayoutDashboard, Users, FileText, TrendingUp, LogOut,
   Search, Filter, MoreVertical, CheckCircle, XCircle, Eye,
   Clock, Mail, Phone, Briefcase, Calendar, DollarSign,
-  Bell, Settings, Download, RefreshCw
+  Bell, Settings, Download, RefreshCw, X, ExternalLink
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -20,6 +20,7 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = React.useState<"overview" | "applications" | "users">("overview")
   const [filterStatus, setFilterStatus] = React.useState<string>("all")
   const [isRefreshing, setIsRefreshing] = React.useState(false)
+  const [selectedApp, setSelectedApp] = React.useState<Application | null>(null)
 
   // Fetch data function
   const fetchData = React.useCallback(async () => {
@@ -214,6 +215,7 @@ export default function AdminDashboard() {
   }
 
   return (
+    <>
     <div className="min-h-screen bg-background">
       {/* Top Navigation */}
       <nav className="bg-card border-b border-border sticky top-0 z-50">
@@ -568,7 +570,7 @@ export default function AdminDashboard() {
                           <div className="flex items-start justify-between gap-4 mb-4">
                             <div className="flex-1">
                               <h3 className="text-xl font-semibold text-foreground mb-2">{app.companyName}</h3>
-                              <p className="text-muted-foreground mb-4 line-clamp-2">{app.description}</p>
+                              <p className="text-muted-foreground mb-4 line-clamp-3">{app.description}</p>
                               <div className="flex flex-wrap gap-4 text-sm">
                                 <span className="flex items-center gap-1.5 text-muted-foreground">
                                   {app.founderName}
@@ -597,6 +599,15 @@ export default function AdminDashboard() {
                               Submitted: {new Date((app as any).submittedAt || (app as any).createdAt).toLocaleDateString()}
                             </span>
                             <div className="flex items-center gap-2">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => setSelectedApp(app)}
+                                className="gap-2"
+                              >
+                                <Eye size={16} />
+                                View Details
+                              </Button>
                               {app.status === "pending" && (
                                 <>
                                   <Button
@@ -720,5 +731,174 @@ export default function AdminDashboard() {
         </div>
       </div>
     </div>
+
+    {/* Application Detail Modal */}
+    {selectedApp && (
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+        onClick={() => setSelectedApp(null)}
+      >
+        <div
+          className="bg-card border border-border rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Modal Header */}
+          <div className="flex items-start justify-between p-6 border-b border-border sticky top-0 bg-card z-10">
+            <div>
+              <h2 className="text-2xl font-display font-bold text-foreground">{selectedApp.companyName}</h2>
+              <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border mt-2 ${getStatusColor(selectedApp.status)}`}>
+                {selectedApp.status.toUpperCase()}
+              </div>
+            </div>
+            <button
+              onClick={() => setSelectedApp(null)}
+              className="p-2 hover:bg-muted rounded-lg transition-colors text-muted-foreground"
+            >
+              <X size={20} />
+            </button>
+          </div>
+
+          {/* Modal Body */}
+          <div className="p-6 space-y-6">
+            {/* Founder Info */}
+            <section>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Founder</h3>
+              <div className="grid sm:grid-cols-2 gap-3">
+                <div className="bg-muted/40 rounded-lg p-3">
+                  <p className="text-xs text-muted-foreground mb-1">Name</p>
+                  <p className="text-sm font-medium text-foreground">{selectedApp.founderName}</p>
+                </div>
+                <div className="bg-muted/40 rounded-lg p-3">
+                  <p className="text-xs text-muted-foreground mb-1">Email</p>
+                  <p className="text-sm font-medium text-foreground break-all">{selectedApp.email}</p>
+                </div>
+                {selectedApp.phone && (
+                  <div className="bg-muted/40 rounded-lg p-3">
+                    <p className="text-xs text-muted-foreground mb-1">Phone</p>
+                    <p className="text-sm font-medium text-foreground">{selectedApp.phone}</p>
+                  </div>
+                )}
+              </div>
+            </section>
+
+            {/* Company Info */}
+            <section>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Company</h3>
+              <div className="grid sm:grid-cols-2 gap-3">
+                <div className="bg-muted/40 rounded-lg p-3">
+                  <p className="text-xs text-muted-foreground mb-1">Industry</p>
+                  <p className="text-sm font-medium text-foreground">{selectedApp.industry}</p>
+                </div>
+                <div className="bg-muted/40 rounded-lg p-3">
+                  <p className="text-xs text-muted-foreground mb-1">Stage</p>
+                  <p className="text-sm font-medium text-foreground">{selectedApp.stage || "—"}</p>
+                </div>
+                <div className="bg-muted/40 rounded-lg p-3">
+                  <p className="text-xs text-muted-foreground mb-1">Funding Amount</p>
+                  <p className="text-sm font-medium text-foreground">{selectedApp.fundingAmount}</p>
+                </div>
+                {selectedApp.pitchDeck && (
+                  <div className="bg-muted/40 rounded-lg p-3">
+                    <p className="text-xs text-muted-foreground mb-1">Pitch Deck</p>
+                    <a
+                      href={selectedApp.pitchDeck}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm font-medium text-accent flex items-center gap-1 hover:underline"
+                    >
+                      View Deck <ExternalLink size={12} />
+                    </a>
+                  </div>
+                )}
+              </div>
+            </section>
+
+            {/* Description */}
+            <section>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Description</h3>
+              <div className="bg-muted/40 rounded-lg p-4">
+                <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">{selectedApp.description}</p>
+              </div>
+            </section>
+
+            {/* Notes */}
+            {selectedApp.notes && (
+              <section>
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Notes</h3>
+                <div className="bg-muted/40 rounded-lg p-4">
+                  <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">{selectedApp.notes}</p>
+                </div>
+              </section>
+            )}
+
+            {/* Review Info */}
+            <section>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Timeline</h3>
+              <div className="grid sm:grid-cols-2 gap-3">
+                <div className="bg-muted/40 rounded-lg p-3">
+                  <p className="text-xs text-muted-foreground mb-1">Submitted</p>
+                  <p className="text-sm font-medium text-foreground">
+                    {new Date((selectedApp as any).submittedAt || (selectedApp as any).createdAt).toLocaleString()}
+                  </p>
+                </div>
+                {selectedApp.reviewedAt && (
+                  <div className="bg-muted/40 rounded-lg p-3">
+                    <p className="text-xs text-muted-foreground mb-1">Reviewed At</p>
+                    <p className="text-sm font-medium text-foreground">{new Date(selectedApp.reviewedAt).toLocaleString()}</p>
+                  </div>
+                )}
+                {selectedApp.reviewedBy && (
+                  <div className="bg-muted/40 rounded-lg p-3">
+                    <p className="text-xs text-muted-foreground mb-1">Reviewed By</p>
+                    <p className="text-sm font-medium text-foreground">{selectedApp.reviewedBy}</p>
+                  </div>
+                )}
+              </div>
+            </section>
+          </div>
+
+          {/* Modal Footer – Actions */}
+          <div className="flex items-center justify-end gap-2 p-6 border-t border-border sticky bottom-0 bg-card">
+            {(() => {
+              const appId = (selectedApp as any)._id?.toString() || selectedApp.id
+              return (
+                <>
+                  {selectedApp.status === "pending" && (
+                    <>
+                      <Button size="sm" variant="outline" onClick={() => { handleStatusChange(appId, "in-review"); setSelectedApp(null) }} className="gap-2">
+                        <Eye size={16} /> Review
+                      </Button>
+                      <Button size="sm" onClick={() => { handleStatusChange(appId, "approved"); setSelectedApp(null) }} className="bg-green-500 hover:bg-green-600 text-white gap-2">
+                        <CheckCircle size={16} /> Approve
+                      </Button>
+                      <Button size="sm" variant="destructive" onClick={() => { handleStatusChange(appId, "rejected"); setSelectedApp(null) }} className="gap-2">
+                        <XCircle size={16} /> Reject
+                      </Button>
+                    </>
+                  )}
+                  {selectedApp.status === "in-review" && (
+                    <>
+                      <Button size="sm" onClick={() => { handleStatusChange(appId, "approved"); setSelectedApp(null) }} className="bg-green-500 hover:bg-green-600 text-white gap-2">
+                        <CheckCircle size={16} /> Approve
+                      </Button>
+                      <Button size="sm" variant="destructive" onClick={() => { handleStatusChange(appId, "rejected"); setSelectedApp(null) }} className="gap-2">
+                        <XCircle size={16} /> Reject
+                      </Button>
+                    </>
+                  )}
+                  {(selectedApp.status === "approved" || selectedApp.status === "rejected") && (
+                    <Button size="sm" variant="outline" onClick={() => { handleStatusChange(appId, "pending"); setSelectedApp(null) }}>
+                      Reset Status
+                    </Button>
+                  )}
+                  <Button size="sm" variant="ghost" onClick={() => setSelectedApp(null)}>Close</Button>
+                </>
+              )
+            })()}
+          </div>
+        </div>
+      </div>
+    )}
+    </>
   )
 }
